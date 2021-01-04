@@ -1,0 +1,12 @@
+{
+  "name": "code42labs-app",
+  "displayName": "code42labs-app",
+  "expo": {
+    "name": "code42labs-app",
+    "slug": "code42labs-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

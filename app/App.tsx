@@ -14,6 +14,15 @@ import { createBottomTabNavigator } from 'react-navigation-bottom-tabs-no-warnin
 import { Provider } from 'react-redux';
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from './redux/root-reducer';
+// bu import sayesinde react-navigation'un ana kapsayici nesnesinin
+// referansina erisebiliyoruz ve onun yardimi ile uygulamanin herhangi
+// bir noktasinda referans objesini import ettigimizde navigasyon
+// islemlerini cagirabiliyoruz.
+// Ornegin redux thunk kodlari icinde cagirabilir hale geliyoruz.
+// Bu yapi sahsen benim tavsiye ettigim yapi cunku container'lar
+// -mumkun oldugunca- kendilerini kaplayan harici kutuphanelerden bagimsiz
+// olmali.
+import { navigate, navigationRef } from './navigation/navigation';
 
 // Store
 import store from './redux/configure-store';
@@ -27,15 +36,15 @@ const DetailsScreen = ({navigation}: {navigation: any}): JSX.Element => {
 }
 
 const HomeScreen = ({navigation}: {navigation: any}): JSX.Element => {
-  const { firstName } = useSelector(
+  const auth = useSelector(
        (state: RootState) => state.auth
-    )
+  )
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home screen {firstName}</Text>
+      <Text>Home screen {auth.firstName}</Text>
       <Button
         title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
+        onPress={() => navigate('Details', null)}
       />
     </View>
   );
@@ -108,7 +117,7 @@ const MainStack = createStackNavigator();
 export default function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <MainStack.Navigator>
           <MainStack.Screen name="Details" component={WelcomeScreen} />
           <MainStack.Screen name="TabScreen" component={TabScreen} options={{headerShown : false}} />

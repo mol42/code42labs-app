@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-// import nanoid from 'nanoid'
-import { RootState } from '../../root-reducer';
+// import { RootState } from '../../root-reducer';
+import {navigate} from "../../../navigation/navigation";
 
 export type UserCredentials = {
   email: string
@@ -22,10 +22,7 @@ export type AuthError = {
 }
 
 export type AuthState = {
-  firstName : string,
-  loading: 'idle' | 'pending'
-  currentRequestId: undefined
-  error: AuthError | undefined
+  firstName: string
 }
 
 /**
@@ -34,39 +31,26 @@ export type AuthState = {
  */
 export const signUp = createAsyncThunk<any, NewUser, { rejectValue: AuthError }>(
   'auth/signUp',
-  async (newUser, thunkAPI) => {
+  async (newUser: NewUser, thunkAPI: any) => {
     // TO BE FILLED
+    console.log(newUser);
+    console.log(thunkAPI);
+
+    navigate("TestScreen", null);
   }
 )
 
 const initialState: AuthState = {
-  firstName : "tayfun",
-  loading: 'idle',
-  currentRequestId: undefined,
-  error: undefined,
+  firstName: "tayfun"
 }
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(signUp.pending, (state) => {
-      state.loading = 'pending'
-    })
-    builder.addCase(signUp.fulfilled, (state) => {
-      state.loading = 'idle'
-      state.error = undefined
-    })
-    builder.addCase(signUp.rejected, (state, { payload }) => {
-      state.loading = 'idle'
-      state.error = payload
-    })
+  extraReducers: (builder: any) => {
+
   },
 })
-
-// Auth selector
-// export const selectAuth = (state: RootState) => state.firebase.auth
-// export const selectProfile = (state: RootState) => state.firebase.profile
 
 export default authSlice.reducer

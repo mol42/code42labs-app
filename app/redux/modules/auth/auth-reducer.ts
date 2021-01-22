@@ -1,44 +1,23 @@
 import { createAsyncThunk, createSlice, PayloadAction, Action } from '@reduxjs/toolkit'
 // import { RootState } from '../../root-reducer';
 // import { navigate } from "../../../navigation/navigation";
-import { doPost } from "../../../services/custom-http-service";
-import { ApiResponse, AuthResponseData } from "../../../models/auth-response";
-
-export type UserCredentials = {
-  email: string
-  password: string
-}
-
-export type User = {
-  firstName: string
-  lastName: string
-  initials: string
-}
-
-export type NewUser = User & UserCredentials
-
-export type AuthError = {
-  code: string
-  message: string
-  id: string
-}
-
-export type AuthState = {
-  email: string,
-  password: string
-}
+import { authApi_login } from "./auth-api";
+import { UserCredentials, AuthError, AuthState } from "./auth-types";
+import { UserModel } from "../../../models/auth-response";
 
 export const doLogin = createAsyncThunk<any, UserCredentials, { rejectValue: AuthError }>(
   'auth/doLogin',
   async (loginUser: UserCredentials, thunkAPI: any) => {
-    const loginResult: ApiResponse<AuthResponseData> | unknown = await doPost("http://localhost:3000/auth/login", loginUser);
+    const loginResult = await authApi_login(loginUser);
     console.log(JSON.stringify(loginResult));
+    thunkAPI.dispatch(setUser(loginResult.data.user));
   }
 )
 
 const initialState: AuthState = {
   email: "",
-  password: ""
+  password: "",
+  user: null
 }
 
 export const authSlice = createSlice({
@@ -50,6 +29,9 @@ export const authSlice = createSlice({
     },
     changePassword(state, { payload }: PayloadAction<string>) {
       state.password = payload;
+    },
+    setUser(state, { payload }: PayloadAction<UserModel>) {
+      state.user = payload;
     }
   },
   extraReducers: (builder: any) => {
@@ -61,7 +43,8 @@ export const authSlice = createSlice({
 
 export const {
   changeEmail,
-  changePassword
+  changePassword,
+  setUser
 } = authSlice.actions
 
 export default authSlice.reducer

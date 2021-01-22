@@ -2,7 +2,7 @@ export function doGet(endpoint: string, options: any) {
 
 }
 
-export function doPost(endpoint: string, data: any) {
+export function doPost(endpoint: string, data: any): any {
     return new Promise((resolve, reject) => {
         fetch(endpoint, {
             method: 'post',

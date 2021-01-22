@@ -12,15 +12,27 @@ import AppNavigationContainer from "./containers";
 // -mumkun oldugunca- kendilerini kaplayan harici kutuphanelerden bagimsiz
 // olmali.
 import { navigationRef } from './navigation/navigation';
+import { createTheming } from '@callstack/react-theme-provider';
+
+const { ThemeProvider } = createTheming({
+  buttons: {
+    primary: {
+      color: "blue"
+    }
+  }
+});
+
 // Store
 import store from './redux/configure-store';
 
 export default function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer ref={navigationRef}>
-        <AppNavigationContainer />
-      </NavigationContainer>
+      <ThemeProvider>
+        <NavigationContainer ref={navigationRef}>
+          <AppNavigationContainer />
+        </NavigationContainer>
+      </ThemeProvider>
     </Provider>
   );
 }

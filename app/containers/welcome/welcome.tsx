@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { View, StyleSheet, SafeAreaView, Text } from "react-native";
 import { navigate } from '../../navigation/navigation';
-import PrimaryButton from "../../components/button/primary";
-import CommonButton from "../../components/button/common";
+import C42PrimaryButton from "../../components/button/primary";
+import C42CommonButton from "../../components/button/common";
 
 const styles = StyleSheet.create({
     safeArea : {
@@ -34,10 +34,10 @@ export default function WelcomeScreen() {
             </View>
             <View style={styles.bottomContainer}>
                 <View style={{ flex: 1 }}>
-                    <PrimaryButton text={"Sign Up"}></PrimaryButton>
+                    <C42PrimaryButton text={"Sign Up"}></C42PrimaryButton>
                 </View>
                 <View style={{ flex: 1 }}>
-                    <CommonButton text={"Sign In"} onPress={() => navigate("LoginScreen", null)}></CommonButton>
+                    <C42CommonButton text={"Sign In"} onPress={() => navigate("LoginScreen", null)}></C42CommonButton>
                 </View>
             </View>
         </View>

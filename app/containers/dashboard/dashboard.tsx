@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { View, StyleSheet, SafeAreaView, Text } from "react-native";
-import { navigate } from '../../navigation/navigation';
-import PrimaryButton from "../../components/button/primary";
-import CommonButton from "../../components/button/common";
+import { useDispatch } from "react-redux";
+import { doLogout } from "../../redux/modules/auth/auth-reducer";
+import C42PrimaryButton from "../../components/button/primary";
 
 const styles = StyleSheet.create({
-    safeArea : {
-        flex: 1, 
+    safeArea: {
+        flex: 1,
         backgroundColor: "black"
     },
     mainContainer: {
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
 });
 
 export default function DashboardScreen() {
+    const dispatch = useDispatch();
 
     return (<SafeAreaView style={styles.safeArea}>
         <View style={styles.mainContainer}>
@@ -34,10 +35,7 @@ export default function DashboardScreen() {
             </View>
             <View style={styles.bottomContainer}>
                 <View style={{ flex: 1 }}>
-                    <PrimaryButton text={"Sign Up"}></PrimaryButton>
-                </View>
-                <View style={{ flex: 1 }}>
-                    
+                    <C42PrimaryButton text={"Logout"} onPress={() => dispatch(doLogout(null))}></C42PrimaryButton>
                 </View>
             </View>
         </View>

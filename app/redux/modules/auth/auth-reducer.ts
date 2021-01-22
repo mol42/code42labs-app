@@ -32,7 +32,10 @@ export const authSlice = createSlice({
     },
     setUser(state, { payload }: PayloadAction<UserModel>) {
       state.user = payload;
-    }
+    },
+    doLogout(state, { payload }: PayloadAction<null>) {
+      state.user = null;
+    },
   },
   extraReducers: (builder: any) => {
     builder.addCase(doLogin.fulfilled, (state: AuthState, action: PayloadAction<string>) => {
@@ -44,7 +47,8 @@ export const authSlice = createSlice({
 export const {
   changeEmail,
   changePassword,
-  setUser
+  setUser,
+  doLogout
 } = authSlice.actions
 
 export default authSlice.reducer

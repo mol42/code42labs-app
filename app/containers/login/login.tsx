@@ -3,12 +3,12 @@ import { View, StyleSheet, SafeAreaView, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import C42PrimaryButton from "../../components/button/primary";
 import C42TextInput from "../../components/input/text-input";
-import { changeEmail, changePassword } from "../../redux/modules/auth/auth-reducer";
+import { changeEmail, changePassword, doLogin } from "../../redux/modules/auth/auth-reducer";
 import { RootState } from "../../redux/root-reducer";
 
 const styles = StyleSheet.create({
-    safeArea : {
-        flex: 1, 
+    safeArea: {
+        flex: 1,
         backgroundColor: "white"
     },
     mainContainer: {
@@ -46,7 +46,7 @@ export default function LoginScreen() {
                     <Text style={{ color: "black" }}>Forgot password ?</Text>
                 </View>
                 <View style={{ paddingBottom: 10 }}>
-                    <C42PrimaryButton text={"Sign Up"} onPress={() => alert(authState.email)}></C42PrimaryButton>
+                    <C42PrimaryButton text={"Sign In"} onPress={() => dispatch(doLogin(authState))}></C42PrimaryButton>
                 </View>
             </View>
         </View>

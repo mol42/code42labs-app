@@ -3,7 +3,7 @@ import { View, StyleSheet, SafeAreaView, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import C42PrimaryButton from "../../components/button/primary";
 import C42TextInputWithIcon from "../../components/input/text-input-with-icon";
-import { changeEmail, changePassword, doSignup } from "../../redux/modules/auth/auth-reducer";
+import { changeEmail, changePassword, changeFirstName, changeLastName, doSignup } from "../../redux/modules/auth/auth-reducer";
 import { RootState } from "../../redux/root-reducer";
 
 const styles = StyleSheet.create({
@@ -37,18 +37,18 @@ export default function SignupScreen() {
             </View>
             <View style={styles.bottomContainer}>
                 <View style={{ paddingBottom: 10 }}>
-                    <C42TextInputWithIcon iconName={"person"} iconSize={22} iconColor={"grey"} placeholder={"First Name"} value={authState.email} onChangeText={(text: string) => dispatch(changeEmail(text))} />
+                    <C42TextInputWithIcon iconName={"person"} iconSize={22} iconColor={"grey"} placeholder={"First Name"} value={authState.email} onChangeText={(text: string) => dispatch(changeFirstName(text))} />
                 </View>
                 <View style={{ paddingBottom: 10 }}>
-                    <C42TextInputWithIcon iconName={"person"} iconSize={22} iconColor={"grey"} placeholder={"Last Name"} value={authState.email} onChangeText={(text: string) => dispatch(changeEmail(text))} />
+                    <C42TextInputWithIcon iconName={"person"} iconSize={22} iconColor={"grey"} placeholder={"Last Name"} value={authState.email} onChangeText={(text: string) => dispatch(changeLastName(text))} />
                 </View>
                 <View style={{ paddingBottom: 10 }}>
                     <C42TextInputWithIcon iconName={"at-circle-sharp"} iconSize={22} iconColor={"grey"} placeholder={"Email"} value={authState.email} onChangeText={(text: string) => dispatch(changeEmail(text))} />
                 </View>
-                <View style={{ paddingBottom: 15 }}>
+                <View style={{ paddingBottom: 30 }}>
                     <C42TextInputWithIcon iconName={"lock-closed"} iconSize={22} iconColor={"grey"} placeholder={"Password"} secureTextEntry={true} value={authState.password} onChangeText={(text: string) => dispatch(changePassword(text))} />
                 </View>
-                <View style={{ paddingBottom: 30 }}>
+                <View>
                     <C42PrimaryButton text={"Sign Up"} onPress={() => dispatch(doSignup(authState))}></C42PrimaryButton>
                 </View>
             </View>

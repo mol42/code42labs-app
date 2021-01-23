@@ -15,6 +15,7 @@ import { RootState } from "../redux/root-reducer";
 import LoginScreen from "./login/login";
 import WelcomeScreen from './welcome/welcome';
 import DashboardScreen from "./dashboard/dashboard";
+import SignupScreen from "./signup/signup";
 
 const MainStack = createStackNavigator();
 const TabbedStack = createBottomTabNavigator();
@@ -37,6 +38,7 @@ export default function RootNavigationContainer(props: any) {
           <>
             <MainStack.Screen name="WelcomeScreen" component={WelcomeScreen} />
             <MainStack.Screen name="LoginScreen" component={LoginScreen} />
+            <MainStack.Screen name="SignupScreen" component={SignupScreen} />
           </>
         )}
     </MainStack.Navigator>

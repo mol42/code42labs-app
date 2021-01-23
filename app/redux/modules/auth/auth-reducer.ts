@@ -1,8 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction, Action } from '@reduxjs/toolkit'
-// import { RootState } from '../../root-reducer';
-// import { navigate } from "../../../navigation/navigation";
-import { authApi_login } from "./auth-api";
-import { UserCredentials, AuthError, AuthState } from "./auth-types";
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { authApi_login, authApi_signup } from "./auth-api";
+import { UserCredentials, AuthError, AuthState, NewUser } from "./auth-types";
 import { UserModel } from "../../../models/auth-response";
 
 export const doLogin = createAsyncThunk<any, UserCredentials, { rejectValue: AuthError }>(
@@ -14,7 +12,18 @@ export const doLogin = createAsyncThunk<any, UserCredentials, { rejectValue: Aut
   }
 )
 
+export const doSignup = createAsyncThunk<any, NewUser, { rejectValue: AuthError }>(
+  'auth/doSignup',
+  async (newUser: NewUser, thunkAPI: any) => {
+    const signupResult = await authApi_signup(newUser);
+    console.log(JSON.stringify(signupResult));
+    thunkAPI.dispatch(setUser(signupResult.data.user));
+  }
+)
+
 const initialState: AuthState = {
+  firstName: "",
+  lastName: "",
   email: "",
   password: "",
   user: null
@@ -29,6 +38,12 @@ export const authSlice = createSlice({
     },
     changePassword(state, { payload }: PayloadAction<string>) {
       state.password = payload;
+    },
+    changeFirstName(state, { payload }: PayloadAction<string>) {
+      state.firstName = payload;
+    },
+    changeLastName(state, { payload }: PayloadAction<string>) {
+      state.lastName = payload;
     },
     setUser(state, { payload }: PayloadAction<UserModel>) {
       state.user = payload;
@@ -45,6 +60,8 @@ export const authSlice = createSlice({
 })
 
 export const {
+  changeFirstName,
+  changeLastName,
   changeEmail,
   changePassword,
   setUser,

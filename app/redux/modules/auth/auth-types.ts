@@ -8,7 +8,6 @@ export type UserCredentials = {
 export type User = {
   firstName: string
   lastName: string
-  initials: string
 }
 
 export type NewUser = User & UserCredentials
@@ -20,6 +19,8 @@ export type AuthError = {
 }
 
 export type AuthState = {
+  firstName: string,
+  lastName: string,
   email: string,
   password: string,
   user: UserModel | null

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@callstack/react-theme-provider": "^2.1.0",
+    "@expo/vector-icons": "^12.0.3",
     "@manaflair/redux-batch": "^1.0.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.2",

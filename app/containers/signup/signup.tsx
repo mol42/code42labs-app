@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, StyleSheet, SafeAreaView, Image } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import C42PrimaryButton from "../../components/button/primary";
 import C42TextInputWithIcon from "../../components/input/text-input-with-icon";

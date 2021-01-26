@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { authApi_login, authApi_signup } from "./auth-api";
 import { UserCredentials, AuthError, AuthState, NewUser } from "./auth-types";
 import { UserModel } from "../../../models/auth-response";
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 export const doLogin = createAsyncThunk<any, UserCredentials, { rejectValue: AuthError }>(
   'auth/doLogin',
@@ -15,6 +16,16 @@ export const doLogin = createAsyncThunk<any, UserCredentials, { rejectValue: Aut
 export const doSignup = createAsyncThunk<any, NewUser, { rejectValue: AuthError }>(
   'auth/doSignup',
   async (newUser: NewUser, thunkAPI: any) => {
+    thunkAPI.dispatch(clearSignupError(null));
+    const { firstName, lastName, email, password } = newUser;
+    if (!firstName || !lastName || !email || !password) {
+      showMessage({
+        message: "Some fields are missing, please fill all fields and try again",
+        type: "danger",
+        autoHide : true
+      });
+      return;
+    }
     const signupResult = await authApi_signup(newUser);
     console.log(JSON.stringify(signupResult));
     thunkAPI.dispatch(setUser(signupResult.data.user));
@@ -26,6 +37,8 @@ const initialState: AuthState = {
   lastName: "",
   email: "",
   password: "",
+  signupHasError: false,
+  signupErrorMessage: undefined,
   user: null
 }
 
@@ -33,6 +46,14 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    clearSignupError(state, { payload }: PayloadAction<null>) {
+      state.signupHasError = false;
+      state.signupErrorMessage = undefined;
+    },
+    setSignupError(state, { payload }: PayloadAction<string>) {
+      state.signupHasError = true;
+      state.signupErrorMessage = payload;
+    },
     changeEmail(state, { payload }: PayloadAction<string>) {
       state.email = payload;
     },
@@ -64,6 +85,8 @@ export const {
   changeLastName,
   changeEmail,
   changePassword,
+  setSignupError,
+  clearSignupError,
   setUser,
   doLogout
 } = authSlice.actions

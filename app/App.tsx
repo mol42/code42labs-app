@@ -1,7 +1,9 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
 import { Provider } from 'react-redux';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
+import FlashMessage from "react-native-flash-message";
 import AppNavigationContainer from "./containers";
 // bu import sayesinde react-navigation'un ana kapsayici nesnesinin
 // referansina erisebiliyoruz ve onun yardimi ile uygulamanin herhangi
@@ -29,9 +31,12 @@ export default function App() {
   return (
     <Provider store={store}>
       <ThemeProvider>
-        <NavigationContainer ref={navigationRef}>
-          <AppNavigationContainer />
-        </NavigationContainer>
+        <SafeAreaProvider>
+          <NavigationContainer ref={navigationRef}>
+            <AppNavigationContainer />
+          </NavigationContainer>
+        </SafeAreaProvider>
+        <FlashMessage position="top" />
       </ThemeProvider>
     </Provider>
   );

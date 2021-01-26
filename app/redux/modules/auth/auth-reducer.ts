@@ -7,48 +7,74 @@ import { showMessage } from "react-native-flash-message";
 import { ErrorCodesMap } from "../../../config/error-constants";
 
 export const doLogin = createAsyncThunk<any, UserCredentials, { rejectValue: AuthError }>(
-    'auth/doLogin',
-    async (loginUser: UserCredentials, thunkAPI: any) => {
-        const loginResult = await authApi_login(loginUser);
-        console.log(JSON.stringify(loginResult));
-        thunkAPI.dispatch(setUser(loginResult.data.user));
+  'auth/doLogin',
+  async (loginUser: UserCredentials, thunkAPI: any) => {
+    const { email, password } = loginUser;
+    if (!email || !password) {
+      showMessage({
+        message: "Some fields are missing, please fill all fields and try again",
+        type: "danger",
+        autoHide: true
+      });
+      return;
     }
+    try {
+      const loginResult = await authApi_login(loginUser);
+      console.log(JSON.stringify(loginResult));
+      if (loginResult.status === "ok") {
+        thunkAPI.dispatch(setUser(loginResult.data.user));
+      } else {
+        // typescipt bir constnt icindeki keyleri kontrol ettigi icin ve
+        // dinamik olarak bir keyi kabul etmedigi icin varsayilan olarak
+        // buradaki type tanimlayarak atama adimi sayesinde tip tanimlamis
+        // oluyoruz ve boylece ErrorCodesMap[errorCode] diyebiliyoruz
+        // hata verdirmeden.
+        const errorCode: keyof typeof ErrorCodesMap = loginResult.data;
+        showMessage({
+          message: ErrorCodesMap[errorCode],
+          type: "danger",
+          autoHide: true
+        });
+      }
+    } catch (err) {
+    }
+  }
 )
 
 export const doSignup = createAsyncThunk<any, NewUser, { rejectValue: AuthError }>(
-    'auth/doSignup',
-    async (newUser: NewUser, thunkAPI: any) => {
-        thunkAPI.dispatch(clearSignupError(null));
-        const { firstName, lastName, email, password } = newUser;
-        if (!firstName || !lastName || !email || !password) {
-            showMessage({
-                message: "Some fields are missing, please fill all fields and try again",
-                type: "danger",
-                autoHide: true
-            });
-            return;
-        }
-        try {
-            const signupResult = await authApi_signup(newUser);
-            console.log(JSON.stringify(signupResult));
-            if (signupResult.status === "ok") {
-                thunkAPI.dispatch(setSignupSuccess(signupResult.data.user));
-            } else {
-                // typescipt bir constnt icindeki keyleri kontrol ettigi icin ve
-                // dinamik olarak bir keyi kabul etmedigi icin varsayilan olarak
-                // buradaki type tanimlayarak atama adimi sayesinde tip tanimlamis
-                // oluyoruz ve boylece ErrorCodesMap[errorCode] diyebiliyoruz
-                // hata verdirmeden.
-                const errorCode: keyof typeof ErrorCodesMap = signupResult.data;
-                showMessage({
-                    message: ErrorCodesMap[errorCode],
-                    type: "danger",
-                    autoHide: true
-                });
-            }
-        } catch (err) {
-        }
+  'auth/doSignup',
+  async (newUser: NewUser, thunkAPI: any) => {
+    thunkAPI.dispatch(clearSignupError(null));
+    const { firstName, lastName, email, password } = newUser;
+    if (!firstName || !lastName || !email || !password) {
+      showMessage({
+        message: "Some fields are missing, please fill all fields and try again",
+        type: "danger",
+        autoHide: true
+      });
+      return;
     }
+    try {
+      const signupResult = await authApi_signup(newUser);
+      console.log(JSON.stringify(signupResult));
+      if (signupResult.status === "ok") {
+        thunkAPI.dispatch(setSignupSuccess(signupResult.data.user));
+      } else {
+        // typescipt bir constnt icindeki keyleri kontrol ettigi icin ve
+        // dinamik olarak bir keyi kabul etmedigi icin varsayilan olarak
+        // buradaki type tanimlayarak atama adimi sayesinde tip tanimlamis
+        // oluyoruz ve boylece ErrorCodesMap[errorCode] diyebiliyoruz
+        // hata verdirmeden.
+        const errorCode: keyof typeof ErrorCodesMap = signupResult.data;
+        showMessage({
+          message: ErrorCodesMap[errorCode],
+          type: "danger",
+          autoHide: true
+        });
+      }
+    } catch (err) {
+    }
+  }
 )
 
 const initialState: AuthState = {

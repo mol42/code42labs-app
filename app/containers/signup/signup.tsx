@@ -3,6 +3,7 @@ import { View, StyleSheet, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import C42PrimaryButton from "../../components/button/primary";
 import C42TextInputWithIcon from "../../components/input/text-input-with-icon";
+import C42SecureTextInput from "../../components/input/secure-text-input";
 import { changeEmail, changePassword, changeFirstName, changeLastName, doSignup } from "../../redux/modules/auth/auth-reducer";
 import { RootState } from "../../redux/root-reducer";
 
@@ -48,7 +49,7 @@ export default function SignupScreen() {
                 <C42TextInputWithIcon iconName={"at-circle-sharp"} iconSize={22} iconColor={"grey"} placeholder={"Email"} value={authState.email} onChangeText={(text: string) => dispatch(changeEmail(text))} />
             </View>
             <View style={{ paddingBottom: 30 }}>
-                <C42TextInputWithIcon iconName={"lock-closed"} iconSize={22} iconColor={"grey"} placeholder={"Password"} secureTextEntry={true} value={authState.password} onChangeText={(text: string) => dispatch(changePassword(text))} />
+                <C42SecureTextInput iconName={"lock-closed"} iconSize={22} iconColor={"grey"} placeholder={"Password"} value={authState.password} onChangeText={(text: string) => dispatch(changePassword(text))} />
             </View>
             <View>
                 <C42PrimaryButton text={"Sign Up"} onPress={() => dispatch(doSignup(authState))}></C42PrimaryButton>

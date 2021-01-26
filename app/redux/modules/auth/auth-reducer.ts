@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { authApi_login, authApi_signup } from "./auth-api";
 import { UserCredentials, AuthError, AuthState, NewUser } from "./auth-types";
 import { UserModel } from "../../../models/auth-response";
-import { showMessage, hideMessage } from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
+import { ErrorCodesMap } from "../../../config/error-constants";
 
 export const doLogin = createAsyncThunk<any, UserCredentials, { rejectValue: AuthError }>(
   'auth/doLogin',
@@ -22,13 +23,30 @@ export const doSignup = createAsyncThunk<any, NewUser, { rejectValue: AuthError 
       showMessage({
         message: "Some fields are missing, please fill all fields and try again",
         type: "danger",
-        autoHide : true
+        autoHide: true
       });
       return;
     }
-    const signupResult = await authApi_signup(newUser);
-    console.log(JSON.stringify(signupResult));
-    thunkAPI.dispatch(setUser(signupResult.data.user));
+    try {
+      const signupResult = await authApi_signup(newUser);
+      console.log(JSON.stringify(signupResult));
+      if (signupResult.status === "ok") {
+        thunkAPI.dispatch(setUser(signupResult.data.user));
+      } else {
+        // typescipt bir constnt icindeki keyleri kontrol ettigi icin ve
+        // dinamik olarak bir keyi kabul etmedigi icin varsayilan olarak
+        // buradaki type tanimlayarak atama adimi sayesinde tip tanimlamis
+        // oluyoruz ve boylece ErrorCodesMap[errorCode] diyebiliyoruz
+        // hata verdirmeden.
+        const errorCode: keyof typeof ErrorCodesMap = signupResult.data;
+        showMessage({
+          message: ErrorCodesMap[errorCode],
+          type: "danger",
+          autoHide: true
+        });
+      }
+    } catch (err) {
+    }
   }
 )
 

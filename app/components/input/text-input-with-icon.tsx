@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     },
     input: {
         padding: 5,
+        flex : 1,
         paddingVertical : 8,
         borderRadius: 5,
         marginHorizontal: 8,

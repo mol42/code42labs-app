@@ -20,7 +20,6 @@ export const doLogin = createAsyncThunk<any, UserCredentials, { rejectValue: Aut
     }
     try {
       const loginResult = await authApi_login(loginUser);
-      console.log(JSON.stringify(loginResult));
       if (loginResult.status === "ok") {
         thunkAPI.dispatch(setUser(loginResult.data.user));
       } else {
@@ -56,7 +55,6 @@ export const doSignup = createAsyncThunk<any, NewUser, { rejectValue: AuthError 
     }
     try {
       const signupResult = await authApi_signup(newUser);
-      console.log(JSON.stringify(signupResult));
       if (signupResult.status === "ok") {
         thunkAPI.dispatch(setSignupSuccess(signupResult.data.user));
       } else {

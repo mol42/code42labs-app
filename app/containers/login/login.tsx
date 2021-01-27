@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, StyleSheet, SafeAreaView, Text } from "react-native";
+import { View, StyleSheet, Text, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import C42PrimaryButton from "../../components/button/primary";
 import C42TextInputWithIcon from "../../components/input/text-input-with-icon";
@@ -9,19 +9,22 @@ import { RootState } from "../../redux/root-reducer";
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: "white"
+        backgroundColor: "white",
+        marginTop: 0
     },
     mainContainer: {
         flex: 1,
         backgroundColor: "white"
     },
     topContainer: {
-        height: 280,
+        height: 320,
+        width: "100%",
         justifyContent: "center",
         alignItems: "center"
     },
     bottomContainer: {
         flex: 2,
+        paddingTop: 40,
         paddingHorizontal: 32
     }
 });
@@ -30,10 +33,12 @@ export default function LoginScreen() {
     const dispatch = useDispatch();
     const authState = useSelector((state: RootState) => state.auth);
 
-    return (<SafeAreaView style={styles.safeArea}>
+    return (
         <View style={styles.mainContainer}>
             <View style={styles.topContainer}>
-                <Text style={{ color: "black" }}>LOGO HERE</Text>
+                <Image source={require("../../images/desktop-with-computer-coffee-cup.jpg")} resizeMode={"stretch"} style={{ flex: 1 }}>
+
+                </Image>
             </View>
             <View style={styles.bottomContainer}>
                 <View style={{ paddingBottom: 10 }}>
@@ -49,6 +54,5 @@ export default function LoginScreen() {
                     <Text style={{ color: "black" }}>Forgot password ?</Text>
                 </View>
             </View>
-        </View>
-    </SafeAreaView>);
+        </View>);
 }

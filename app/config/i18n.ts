@@ -5,6 +5,7 @@ const lang_en = {
   sign_in: "Sign in",
   forgot_password: "Forgot Password",
   title_skills: "Skills",
+  title_programming_language: "Programming Language"
 };
 
 const lang_tr = {
@@ -12,6 +13,7 @@ const lang_tr = {
   sign_in: "Giriş",
   forgot_password: "Şifremi Unuttum",
   title_skills: "Skiller",
+  title_programming_language: "Programlama Dili"
 };
 
 type I18nContextType = {

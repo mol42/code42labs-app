@@ -17,7 +17,7 @@ const whiteTheme = {
   colors: {
     primary: "#1E59F5",
     secondary: "",
-    backgroundColor: "",
+    backgroundColor: "#FFFFFF",
   },
   buttons: {
     primary: {
@@ -30,7 +30,12 @@ const whiteTheme = {
     },
   },
   text: {
-    primary: "black",
+    colors: {
+      primary: "black",
+    },
+    sizes: {
+      h1: 24,
+    },
   },
 };
 

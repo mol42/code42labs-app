@@ -1,8 +1,3 @@
-export type ApiResponse<T> = {
-  status: string;
-  data: T;
-};
-
 export type UserModel = {
   id: number;
   username: string;

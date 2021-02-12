@@ -1,12 +1,7 @@
-export type ApiResponse<T> = {
-  status: string;
-  data: T;
-};
-
 export type SkillModel = {
   id: number;
   name: string;
-  image: string,
+  image: string;
   shortDescription: string;
   longDescription: string;
   skillTypeId: number;

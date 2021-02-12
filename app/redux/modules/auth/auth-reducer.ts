@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { AuthState } from "./auth-types";
-import { UserModel } from "../../../models/auth-response";
+import { UserModel } from "../../../models/auth-model";
 import { authApi_login, authApi_signup } from "./auth-api";
 import { UserCredentials, AuthError, NewUser } from "./auth-types";
 import { showMessage } from "react-native-flash-message";
 import { ErrorCodesMap } from "../../../config/error-constants";
-import {GlobalConstants} from "../../../config/global-constants";
+import { GlobalConstants } from "../../../config/global-constants";
 
 export const doLogin = createAsyncThunk<
   any,

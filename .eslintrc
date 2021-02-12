@@ -2,13 +2,9 @@
   "extends": [
     "airbnb",
     "airbnb/hooks",
-    "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "prettier/react",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
+    "plugin:@typescript-eslint/recommended"
   ],
-  "plugins": ["@typescript-eslint", "react", "prettier"],
+  "plugins": ["@typescript-eslint", "react"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -26,15 +22,6 @@
         ".tsx"
       ]
     }],
-    "prettier/prettier": [
-      "error",
-      {
-        "singleQuote": false,
-        "trailingComma": "all",
-        "arrowParens": "avoid",
-        "endOfLine": "auto"
-      }
-    ],
     "no-use-before-define": "off",
     "react/prop-types": 0,
     "comma-dangle": "off",
@@ -47,9 +34,10 @@
     "func-names": "off",
     "no-empty": "off",
     "no-lonely-if": "off",
-    "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/no-use-before-define": ["off"],
     "import/extensions": ["error", "never"],
     "no-shadow": "off",
+    "no-explicit-any": "off",
     "@typescript-eslint/no-shadow": ["error"],
     "space-before-function-paren": [
       "error",

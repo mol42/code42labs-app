@@ -1,9 +1,11 @@
-
-import { SkillModel } from "../../../models/skills-response";
-import { SkillStepModel } from "../../../models/skill-step-response";
+import { SkillModel } from "../../../models/skills-model";
+import { SkillStepModel } from "../../../models/skill-step-model";
+import { SkillStepResourceModel } from "../../../models/skill-step-resource-model";
 
 export type SkillsState = {
-    allSkills: Array<SkillModel>;
-    selectedSkill: SkillModel | null,
-    selectedSkillSteps: Array<SkillStepModel>
-}
+  allSkills: Array<SkillModel>;
+  selectedSkill: SkillModel | null;
+  selectedSkillSteps: Array<SkillStepModel>;
+  selectedSkillStep: SkillStepModel | null;
+  selectedSkillStepResources: Array<SkillStepResourceModel>
+};

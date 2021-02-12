@@ -5,10 +5,11 @@ import C42Text from "../../components/text/text";
 import { I18nContext } from "../../config/i18n";
 import { ThemeContext } from "../../config/theming";
 import { ScrollView } from "react-native-gesture-handler";
-import { fetchSkillSteps } from "../../redux/modules/skills/skills-reducer";
+import { fetchSkillStepResources } from "../../redux/modules/skills/skills-reducer";
 import { RootState } from "../../redux/root-reducer";
 import { SkillStepModel } from "../../models/skill-step-model";
 import { Entypo } from "@expo/vector-icons";
+import { SkillStepResourceModel } from "../../models/skill-step-resource-model";
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   topContainer: {
-    height: 300,
+    height: 120,
   },
   bottomContainer: {
     flex: 1,
@@ -35,18 +36,19 @@ function getSkillImage(skillImage: string) {
   }
 }
 
-export default function SkillDetailScreen(): JSX.Element {
+export default function SkillStepDetailScreen(): JSX.Element {
   const dispatch = useDispatch();
   const polyglot = I18nContext.polyglot;
   const theme = ThemeContext.useTheme();
   const skillsState = useSelector((state: RootState) => state.skills);
 
-  const { selectedSkill } = skillsState;
+  const { selectedSkill, selectedSkillStep, selectedSkillStepResources } = skillsState;
   const skillImage = selectedSkill ? selectedSkill.image : "";
   const skillId = selectedSkill ? selectedSkill.id : 0;
+  const skillStepId = selectedSkillStep ? selectedSkillStep.id : 0;
 
   useEffect(() => {
-    dispatch(fetchSkillSteps(skillId));
+    dispatch(fetchSkillStepResources({ skillId, skillStepId }));
   }, []);
 
   return (
@@ -75,7 +77,7 @@ export default function SkillDetailScreen(): JSX.Element {
               <C42Text
                 size={24}
                 fontWeight={"normal"}
-                text={selectedSkill?.name}
+                text={selectedSkillStep?.name}
               ></C42Text>
             </View>
           </ImageBackground>
@@ -109,7 +111,7 @@ export default function SkillDetailScreen(): JSX.Element {
               text={polyglot?.t("title_skill_steps")}
             ></C42Text>
             <View style={{ height: 10 }}></View>
-            {skillsState.selectedSkillSteps.map((item: SkillStepModel) => {
+            {selectedSkillStepResources.map((item: SkillStepResourceModel) => {
               return (
                 <View
                   key={`key-${item.id}`}

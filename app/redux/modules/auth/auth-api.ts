@@ -1,28 +1,26 @@
 import { doPost } from "../../../services/custom-http-service";
-import {
-  ApiResponse,
-  AuthResponseDataType,
-} from "../../../models/auth-response";
+import { AuthResponseDataType } from "../../../models/auth-model";
+import { ApiResponse } from "../../../models/generic-api-response";
 import { UserCredentials, NewUser } from "./auth-types";
 
 export async function authApi_login(
-  loginUser: UserCredentials,
+  loginUser: UserCredentials
 ): Promise<ApiResponse<AuthResponseDataType>> {
   const loginResult: ApiResponse<AuthResponseDataType> = await doPost(
     "http://localhost:3000/auth/login",
     null,
-    loginUser,
+    loginUser
   );
   return loginResult;
 }
 
 export async function authApi_signup(
-  newUser: NewUser,
+  newUser: NewUser
 ): Promise<ApiResponse<AuthResponseDataType>> {
   const signupResult: ApiResponse<AuthResponseDataType> = await doPost(
     "http://localhost:3000/auth/signup",
     null,
-    newUser,
+    newUser
   );
   return signupResult;
 }

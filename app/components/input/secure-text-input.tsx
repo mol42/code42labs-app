@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TextInput, StyleSheet, View } from "react-native";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons, GLYPHS } from "@expo/vector-icons";
 import PropTypes from "prop-types";
 
 const styles = StyleSheet.create({

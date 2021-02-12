@@ -73,7 +73,7 @@
     "no-underscore-dangle": "off",
     "no-unused-vars": "off",
     "no-console": "off",
-    "max-len": ["on", { "code": 150, "ignoreUrls": true }],
+    "max-len": ["off", { "code": 150, "ignoreUrls": true }],
     "eqeqeq": "off",
     "no-await-in-loop": "off",
     "no-loop-func": "off",

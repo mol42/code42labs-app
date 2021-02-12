@@ -5,10 +5,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import C42Text from "../../components/text/text";
 import { I18nContext } from "../../config/i18n";
 import { ThemeContext } from "../../config/theming";
-import { FlatList } from "react-native-gesture-handler";
-import {fetchAllSkills} from "../../redux/modules/skills/skills-reducer";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import {fetchAllSkills, setSelectedSkill} from "../../redux/modules/skills/skills-reducer";
 import { RootState } from "../../redux/root-reducer";
 import {SkillModel} from "../../models/skills-response";
+import {navigate} from "../../navigation/navigation";
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -64,22 +65,27 @@ export default function SkillsScreen() {
         </View>
         <View style={styles.bottomContainer}>
           <FlatList data={skillsState.allSkills} renderItem={({item} : {item: SkillModel}) => {
-            return <View style={{flexDirection : "row", paddingBottom: 10, borderBottomWidth: 0.5, borderBottomColor: "#EEE"}}>
-              <View style={{width: 80, height: 80, marginRight: 16, borderRadius: 10,  backgroundColor: "grey"}}>
-                <Image style={{flex: 1, width: 80, height: 80, borderRadius: 10}} resizeMode={"stretch"} source={getSkillImage(item.image)} />
+            return <TouchableOpacity onPress={() => {
+              dispatch(setSelectedSkill(item));
+              navigate("SkillDetailScreen", null);
+            }}>
+                <View style={{flexDirection : "row", paddingBottom: 10, borderBottomWidth: 0.5, borderBottomColor: "#EEE"}}>
+                  <View style={{width: 80, height: 80, marginRight: 16, borderRadius: 10,  backgroundColor: "grey"}}>
+                    <Image style={{flex: 1, width: 80, height: 80, borderRadius: 10}} resizeMode={"stretch"} source={getSkillImage(item.image)} />
+                  </View>
+                  <View>
+                    <C42Text 
+                      size={15}
+                      fontWeight={"bold"}
+                      text={item.name} 
+                      padding={{bottom: 5}}></C42Text>
+                    <C42Text 
+                      size={12}
+                      fontWeight={"normal"}
+                      text={polyglot?.t("title_programming_language")}></C42Text>
+                  </View>
               </View>
-              <View>
-                <C42Text 
-                  size={15}
-                  fontWeight={"bold"}
-                  text={item.name} 
-                  padding={{bottom: 5}}></C42Text>
-                <C42Text 
-                  size={12}
-                  fontWeight={"normal"}
-                  text={polyglot?.t("title_programming_language")}></C42Text>
-              </View>
-            </View>
+            </TouchableOpacity>
           }}></FlatList>
         </View>
       </View>

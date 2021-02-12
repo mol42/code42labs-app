@@ -5,7 +5,9 @@ const lang_en = {
   sign_in: "Sign in",
   forgot_password: "Forgot Password",
   title_skills: "Skills",
-  title_programming_language: "Programming Language"
+  title_programming_language: "Programming Language",
+  title_description: "Description",
+  title_skill_steps: "Skill steps"
 };
 
 const lang_tr = {
@@ -13,7 +15,9 @@ const lang_tr = {
   sign_in: "Giriş",
   forgot_password: "Şifremi Unuttum",
   title_skills: "Skiller",
-  title_programming_language: "Programlama Dili"
+  title_programming_language: "Programlama Dili",
+  title_description: "Açıklama",
+  title_skill_steps: "Skill Adımları"
 };
 
 type I18nContextType = {

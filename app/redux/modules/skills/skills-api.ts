@@ -3,6 +3,10 @@ import {
   ApiResponse,
   SkillsResponseDataType,
 } from "../../../models/skills-response";
+import {
+  SkillStepsResponseDataType,
+} from "../../../models/skill-step-response";
+
 
 export async function skillsApi_fetchAllSkills(): Promise<
   ApiResponse<SkillsResponseDataType>
@@ -13,3 +17,14 @@ export async function skillsApi_fetchAllSkills(): Promise<
   );
   return allSkilsResult;
 }
+
+export async function skillsApi_fetchSkillSteps(skillId: number): Promise<
+  ApiResponse<SkillStepsResponseDataType>
+> {
+  const allSkillStepsResults: ApiResponse<SkillStepsResponseDataType> = await doGet(
+    `http://localhost:3000/skills/${skillId}/steps/all`,
+    null,
+  );
+  return allSkillStepsResults;
+}
+

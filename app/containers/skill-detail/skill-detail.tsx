@@ -10,7 +10,7 @@ import { RootState } from "../../redux/root-reducer";
 import { SkillStepModel } from "../../models/skill-step-model";
 import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { navigate } from "../../navigation/navigation";
+import { navigate, goBack } from "../../navigation/navigation";
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -152,7 +152,7 @@ export default function SkillDetailScreen(): JSX.Element {
       </ScrollView>
       <View style={{ flexDirection: "row", justifyContent: "space-between", position: "absolute", width: "100%", paddingTop: safeAreaInsets.top, paddingHorizontal: 16 }}>
         <TouchableOpacity onPress={() => {
-          navigate("SkillsScreen", null);
+          goBack();
         }}>
           <AntDesign name="leftcircle" size={24} color="black" />
         </TouchableOpacity>

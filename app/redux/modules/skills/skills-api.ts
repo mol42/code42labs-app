@@ -51,7 +51,6 @@ export async function skillsApi_updateSkillFavorites(
 }
 
 export async function skillsApi_fetchAllFavoriteSkills(
-  skillId: number
 ): Promise<ApiResponse<any>> {
   const skillStepfavoritingResponse: ApiResponse<any> = await doGet(
     "http://localhost:3000/skills/favorites/all",

@@ -24,6 +24,7 @@ import SkillStepDetailScreen from "./skill-step-detail/skill-step-deatail";
 
 const MainStack = createStackNavigator();
 const SkillsStack = createStackNavigator();
+const MySkillsStack = createStackNavigator();
 const TabbedStack = createBottomTabNavigator();
 
 function SkillsTab() {
@@ -36,11 +37,21 @@ function SkillsTab() {
   );
 }
 
+function MySkillsTab() {
+  return (
+    <MySkillsStack.Navigator>
+      <MySkillsStack.Screen name="MySkillsScreen" component={MySkillsScreen} options={{ headerShown: false }} />
+      <MySkillsStack.Screen name="SkillDetailScreen" component={SkillDetailScreen} options={{ headerShown: false }} />
+      <MySkillsStack.Screen name="SkillStepDetailScreen" component={SkillStepDetailScreen} options={{ headerShown: false }} />
+    </MySkillsStack.Navigator>
+  );
+}
+
 function TabScreen() {
   return (
     <TabbedStack.Navigator lazy={true}>
       <TabbedStack.Screen name="DashboardScreen" component={DashboardScreen} />
-      <TabbedStack.Screen name="MySkillsScreen" component={MySkillsScreen} />
+      <TabbedStack.Screen name="MySkillsTab" component={MySkillsTab} />
       <TabbedStack.Screen name="SkillsTab" component={SkillsTab} />
       <TabbedStack.Screen name="SettingsScreen" component={SettingsScreen} />
     </TabbedStack.Navigator>

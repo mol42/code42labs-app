@@ -8,7 +8,7 @@ import {
 } from "./skills-api";
 import { SkillsState } from "./skills-types";
 // import { showMessage } from "react-native-flash-message";
-import { ErrorCodesMap } from "../../../config/error-constants";
+// import { ErrorCodesMap } from "../../../config/error-constants";
 import { SkillModel } from "../../../models/skills-model";
 import { SkillStepModel } from "../../../models/skill-step-model";
 import { SkillStepResourceModel } from "../../../models/skill-step-resource-model";
@@ -62,9 +62,9 @@ export const updateSkillFavorites = createAsyncThunk(
 
 export const fetchAllFavoriteSkills = createAsyncThunk(
   "skills/fetchAllFavoriteSkills",
-  async (skillId: number, thunkAPI: any) => {
+  async (_ :any, thunkAPI: any) => {
     try {
-      const skillStepResources = await skillsApi_fetchAllFavoriteSkills(skillId);
+      const skillStepResources = await skillsApi_fetchAllFavoriteSkills();
       if (skillStepResources.status === "ok") {
         thunkAPI.dispatch(setSkillFavorites(skillStepResources.data));
       }

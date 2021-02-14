@@ -6,6 +6,21 @@ import { UserCredentials, AuthError, NewUser } from "./auth-types";
 import { showMessage } from "react-native-flash-message";
 import { ErrorCodesMap } from "../../../config/error-constants";
 import { GlobalConstants } from "../../../config/global-constants";
+import LocalStorage from "../../../config/storage";
+
+export const initAuth = createAsyncThunk<
+  any,
+  any,
+  { rejectValue: AuthError }
+>("auth/initApp", async (_ :any, thunkAPI: any) => {
+  try {
+    const authData = await LocalStorage.load({
+      key: "authData"
+    });
+    thunkAPI.dispatch(setUser(authData.user));
+    thunkAPI.dispatch(setAuthToken(authData.xAuthToken));
+  } catch (err) { }
+});
 
 export const doLogin = createAsyncThunk<
   any,
@@ -24,6 +39,10 @@ export const doLogin = createAsyncThunk<
   try {
     const loginResult = await authApi_login(loginUser);
     if (loginResult.status === "ok") {
+      LocalStorage.save({
+        key: "authData",
+        data: loginResult.data
+      });
       thunkAPI.dispatch(setUser(loginResult.data.user));
       thunkAPI.dispatch(setAuthToken(loginResult.data.xAuthToken));
     } else {

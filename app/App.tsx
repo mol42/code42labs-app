@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
@@ -16,14 +16,27 @@ import AppNavigationContainer from "./containers";
 import { navigationRef } from "./navigation/navigation";
 import { ThemeContext, initTheme } from "./config/theming";
 import { initI18n } from "./config/i18n";
+import { initAuth } from "./redux/modules/auth/auth-reducer";
 
-initTheme("white");
-initI18n("tr");
+
 
 // Store
 import store from "./redux/configure-store";
 
 export default function App(): JSX.Element {
+  const [isAppInited, setIsAppInited] = useState(false);
+
+  useEffect(function() {
+    initTheme("white");
+    initI18n("tr");
+    store.dispatch(initAuth(null));
+    setIsAppInited(true);
+  }, []);
+
+  if (!isAppInited) {
+    return <></>;
+  }
+
   return (
     <Provider store={store}>
       <ThemeContext.ThemeProvider>

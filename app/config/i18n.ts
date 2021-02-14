@@ -1,7 +1,7 @@
 import Polyglot from "node-polyglot";
 
 const lang_en = {
-  label_skills: "Skills",
+  label_skills: "All Skills",
   sign_in: "Sign in",
   forgot_password: "Forgot Password",
   title_skills: "Skills",
@@ -17,7 +17,7 @@ const lang_tr = {
   label_skills: "Skiller",
   sign_in: "Giriş",
   forgot_password: "Şifremi Unuttum",
-  title_skills: "Skiller",
+  title_skills: "Tüm Skiller",
   title_programming_language: "Programlama Dili",
   title_description: "Açıklama",
   title_skill_steps: "Skill Adımları",

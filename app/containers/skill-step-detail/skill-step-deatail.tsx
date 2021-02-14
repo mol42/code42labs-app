@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, ImageBackground } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, ImageBackground, Linking } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import C42Text from "../../components/text/text";
 import { I18nContext } from "../../config/i18n";
 import { ThemeContext } from "../../config/theming";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { fetchSkillStepResources } from "../../redux/modules/skills/skills-reducer";
 import { RootState } from "../../redux/root-reducer";
-import { SkillStepModel } from "../../models/skill-step-model";
 import { Entypo } from "@expo/vector-icons";
 import { SkillStepResourceModel } from "../../models/skill-step-resource-model";
 
@@ -36,11 +35,16 @@ function getSkillImage(skillImage: string) {
   }
 }
 
+const TYPE_VIDEO_RESOURCES = 1;
+const TYPE_LINK_RESOURCES = 2;
+
 export default function SkillStepDetailScreen(): JSX.Element {
+  const [webViewUrl, setWebViewUrl] = useState("");
   const dispatch = useDispatch();
   const polyglot = I18nContext.polyglot;
   const theme = ThemeContext.useTheme();
   const skillsState = useSelector((state: RootState) => state.skills);
+  // const modalizeRef = useRef(null);
 
   const { selectedSkill, selectedSkillStep, selectedSkillStepResources } = skillsState;
   const skillImage = selectedSkill ? selectedSkill.image : "";
@@ -93,7 +97,7 @@ export default function SkillStepDetailScreen(): JSX.Element {
             <C42Text
               size={14}
               fontWeight={"normal"}
-              text={selectedSkill?.longDescription}
+              text={selectedSkillStep?.longDescription}
             ></C42Text>
           </View>
           <View
@@ -108,35 +112,73 @@ export default function SkillStepDetailScreen(): JSX.Element {
             <C42Text
               size={18}
               fontWeight={"bold"}
-              text={polyglot?.t("title_skill_steps")}
+              text={polyglot?.t("title_skill_step_video_resources")}
             ></C42Text>
             <View style={{ height: 10 }}></View>
-            {selectedSkillStepResources.map((item: SkillStepResourceModel) => {
+            {selectedSkillStepResources.filter(item => item.type === TYPE_VIDEO_RESOURCES).map((item: SkillStepResourceModel) => {
               return (
-                <View
-                  key={`key-${item.id}`}
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#DDD",
-                    borderRadius: 10,
-                    padding: 10,
-                    marginBottom: 8,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <C42Text
-                    size={16}
-                    fontWeight={"normal"}
-                    text={item.name}
-                  ></C42Text>
-                  <Entypo
-                    name="chevron-with-circle-right"
-                    size={24}
-                    color={theme.buttons.primary.color}
-                  />
-                </View>
+                <TouchableOpacity onPress={() => {
+                  Linking.openURL(item.data["link"]);
+                }}>
+                  <View
+                    key={`key-${item.id}`}
+                    style={{
+                      paddingVertical: 10,
+                      marginBottom: 8,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <C42Text
+                      size={16}
+                      fontWeight={"normal"}
+                      text={item.data["link"]}
+                    ></C42Text>
+                    <Entypo
+                      name="chevron-with-circle-right"
+                      size={24}
+                      color={theme.buttons.primary.color}
+                    />
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+          <View style={{ flex: 1 }}>
+            <C42Text
+              size={18}
+              fontWeight={"bold"}
+              text={polyglot?.t("title_skill_step_text_resources")}
+            ></C42Text>
+            <View style={{ height: 10 }}></View>
+            {selectedSkillStepResources.filter(item => item.type === TYPE_LINK_RESOURCES).map((item: SkillStepResourceModel) => {
+              return (
+                <TouchableOpacity onPress={() => {
+                  Linking.openURL(item.data["link"]);
+                }}>
+                  <View
+                    key={`key-${item.id}`}
+                    style={{
+                      paddingVertical: 10,
+                      marginBottom: 8,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <C42Text
+                      size={16}
+                      fontWeight={"normal"}
+                      text={item.data["link"]}
+                    ></C42Text>
+                    <Entypo
+                      name="chevron-with-circle-right"
+                      size={24}
+                      color={theme.buttons.primary.color}
+                    />
+                  </View>
+                </TouchableOpacity>
               );
             })}
           </View>

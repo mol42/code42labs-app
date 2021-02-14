@@ -7,7 +7,9 @@ const lang_en = {
   title_skills: "Skills",
   title_programming_language: "Programming Language",
   title_description: "Description",
-  title_skill_steps: "Skill steps"
+  title_skill_steps: "Skill steps",
+  title_skill_step_video_resources: "Video Resources",
+  title_skill_step_text_resources: "Text Resources"
 };
 
 const lang_tr = {
@@ -17,7 +19,9 @@ const lang_tr = {
   title_skills: "Skiller",
   title_programming_language: "Programlama Dili",
   title_description: "Açıklama",
-  title_skill_steps: "Skill Adımları"
+  title_skill_steps: "Skill Adımları",
+  title_skill_step_video_resources: "Video Kaynaklar",
+  title_skill_step_text_resources: "Metin Kaynaklar"
 };
 
 type I18nContextType = {

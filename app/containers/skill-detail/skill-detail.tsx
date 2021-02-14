@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import C42Text from "../../components/text/text";
 import { I18nContext } from "../../config/i18n";
 import { ThemeContext } from "../../config/theming";
-import { ScrollView } from "react-native-gesture-handler";
-import { fetchSkillSteps } from "../../redux/modules/skills/skills-reducer";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { fetchSkillSteps, setSelectedSkillStep } from "../../redux/modules/skills/skills-reducer";
 import { RootState } from "../../redux/root-reducer";
 import { SkillStepModel } from "../../models/skill-step-model";
 import { Entypo } from "@expo/vector-icons";
+import { navigate } from "../../navigation/navigation";
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -111,30 +112,35 @@ export default function SkillDetailScreen(): JSX.Element {
             <View style={{ height: 10 }}></View>
             {skillsState.selectedSkillSteps.map((item: SkillStepModel) => {
               return (
-                <View
-                  key={`key-${item.id}`}
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#DDD",
-                    borderRadius: 10,
-                    padding: 10,
-                    marginBottom: 8,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <C42Text
-                    size={16}
-                    fontWeight={"normal"}
-                    text={item.name}
-                  ></C42Text>
-                  <Entypo
-                    name="chevron-with-circle-right"
-                    size={24}
-                    color={theme.buttons.primary.color}
-                  />
-                </View>
+                <TouchableOpacity onPress={() => {
+                  dispatch(setSelectedSkillStep(item));
+                  navigate("SkillStepDetailScreen", null);
+                }}>
+                  <View
+                    key={`key-${item.id}`}
+                    style={{
+                      borderWidth: 1,
+                      borderColor: "#DDD",
+                      borderRadius: 10,
+                      padding: 10,
+                      marginBottom: 8,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <C42Text
+                      size={16}
+                      fontWeight={"normal"}
+                      text={item.name}
+                    ></C42Text>
+                    <Entypo
+                      name="chevron-with-circle-right"
+                      size={24}
+                      color={theme.buttons.primary.color}
+                    />
+                  </View>
+                </TouchableOpacity>
               );
             })}
           </View>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, ImageBackground, Linking } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import C42Text from "../../components/text/text";
@@ -7,8 +7,10 @@ import { ThemeContext } from "../../config/theming";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { fetchSkillStepResources } from "../../redux/modules/skills/skills-reducer";
 import { RootState } from "../../redux/root-reducer";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, AntDesign } from "@expo/vector-icons";
 import { SkillStepResourceModel } from "../../models/skill-step-resource-model";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { navigate } from "../../navigation/navigation";
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -19,7 +21,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   topContainer: {
-    height: 120,
+    height: 150,
   },
   bottomContainer: {
     flex: 1,
@@ -39,11 +41,12 @@ const TYPE_VIDEO_RESOURCES = 1;
 const TYPE_LINK_RESOURCES = 2;
 
 export default function SkillStepDetailScreen(): JSX.Element {
-  const [webViewUrl, setWebViewUrl] = useState("");
+  // const [webViewUrl, setWebViewUrl] = useState("");
   const dispatch = useDispatch();
   const polyglot = I18nContext.polyglot;
   const theme = ThemeContext.useTheme();
   const skillsState = useSelector((state: RootState) => state.skills);
+  const safeAreaInsets = useSafeAreaInsets();
   // const modalizeRef = useRef(null);
 
   const { selectedSkill, selectedSkillStep, selectedSkillStepResources } = skillsState;
@@ -184,6 +187,13 @@ export default function SkillStepDetailScreen(): JSX.Element {
           </View>
         </View>
       </ScrollView>
+      <View style={{ position: "absolute", width: "100%", paddingTop: safeAreaInsets.top, paddingLeft: 16 }}>
+        <TouchableOpacity onPress={() => {
+          navigate("SkillDetailScreen", null);
+        }}>
+          <AntDesign name="leftcircle" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

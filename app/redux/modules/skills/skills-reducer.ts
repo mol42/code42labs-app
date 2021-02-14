@@ -2,7 +2,9 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   skillsApi_fetchAllSkills,
   skillsApi_fetchSkillSteps,
-  skillsApi_fetchAllSkillStepResources
+  skillsApi_fetchAllSkillStepResources,
+  skillsApi_updateSkillFavorites,
+  skillsApi_fetchAllFavoriteSkills
 } from "./skills-api";
 import { SkillsState } from "./skills-types";
 // import { showMessage } from "react-native-flash-message";
@@ -44,13 +46,41 @@ export const fetchSkillStepResources = createAsyncThunk(
   }
 );
 
+export const updateSkillFavorites = createAsyncThunk(
+  "skills/updateSkillFavorites",
+  async ({ skillId, isFavorite }: {skillId: number, isFavorite : boolean}, thunkAPI: any) => {
+    try {
+      const skillStepResources = await skillsApi_updateSkillFavorites(skillId, isFavorite);
+      if (skillStepResources.status === "ok") {
+        thunkAPI.dispatch(fetchAllFavoriteSkills(skillId));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
+export const fetchAllFavoriteSkills = createAsyncThunk(
+  "skills/fetchAllFavoriteSkills",
+  async (skillId: number, thunkAPI: any) => {
+    try {
+      const skillStepResources = await skillsApi_fetchAllFavoriteSkills(skillId);
+      if (skillStepResources.status === "ok") {
+        thunkAPI.dispatch(setSkillFavorites(skillStepResources.data));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
 
 const initialState: SkillsState = {
   allSkills: [],
   selectedSkill: null,
   selectedSkillSteps: [],
   selectedSkillStep: null,
-  selectedSkillStepResources: []
+  selectedSkillStepResources: [],
+  favoriteSkills: []
 };
 
 export const skillsSlice = createSlice({
@@ -81,6 +111,12 @@ export const skillsSlice = createSlice({
     ): void {
       state.selectedSkillStepResources = payload;
     },
+    setSkillFavorites(
+      state,
+      { payload }: PayloadAction<Array<SkillModel>>
+    ): void {
+      state.favoriteSkills = payload;
+    },
   },
   extraReducers: (builder: any) => {
     console.log("");
@@ -92,7 +128,8 @@ export const {
   setSelectedSkill,
   setSelectedSkillSteps,
   setSelectedSkillStep,
-  setSelectedSkillStepResources
+  setSelectedSkillStepResources,
+  setSkillFavorites
 } = skillsSlice.actions;
 
 export default skillsSlice.reducer;

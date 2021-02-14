@@ -5,10 +5,11 @@ import C42Text from "../../components/text/text";
 import { I18nContext } from "../../config/i18n";
 import { ThemeContext } from "../../config/theming";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import { fetchSkillSteps, setSelectedSkillStep } from "../../redux/modules/skills/skills-reducer";
+import { fetchSkillSteps, setSelectedSkillStep, updateSkillFavorites, fetchAllFavoriteSkills } from "../../redux/modules/skills/skills-reducer";
 import { RootState } from "../../redux/root-reducer";
 import { SkillStepModel } from "../../models/skill-step-model";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { navigate } from "../../navigation/navigation";
 
 const styles = StyleSheet.create({
@@ -41,13 +42,16 @@ export default function SkillDetailScreen(): JSX.Element {
   const polyglot = I18nContext.polyglot;
   const theme = ThemeContext.useTheme();
   const skillsState = useSelector((state: RootState) => state.skills);
+  const safeAreaInsets = useSafeAreaInsets();
 
-  const { selectedSkill } = skillsState;
+  const { selectedSkill, favoriteSkills } = skillsState;
   const skillImage = selectedSkill ? selectedSkill.image : "";
   const skillId = selectedSkill ? selectedSkill.id : 0;
+  const isFavorite = favoriteSkills.findIndex(item => item.id === skillId) > -1;
 
   useEffect(() => {
     dispatch(fetchSkillSteps(skillId));
+    dispatch(fetchAllFavoriteSkills(skillId));
   }, []);
 
   return (
@@ -146,6 +150,18 @@ export default function SkillDetailScreen(): JSX.Element {
           </View>
         </View>
       </ScrollView>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", position: "absolute", width: "100%", paddingTop: safeAreaInsets.top, paddingHorizontal: 16 }}>
+        <TouchableOpacity onPress={() => {
+          navigate("SkillsScreen", null);
+        }}>
+          <AntDesign name="leftcircle" size={24} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          dispatch(updateSkillFavorites({ skillId, isFavorite: !isFavorite }));
+        }}>
+          <Ionicons name={isFavorite ? "bookmark" : "bookmark-outline"} size={24} color="black" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

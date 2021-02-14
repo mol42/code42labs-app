@@ -7,5 +7,6 @@ export type SkillsState = {
   selectedSkill: SkillModel | null;
   selectedSkillSteps: Array<SkillStepModel>;
   selectedSkillStep: SkillStepModel | null;
-  selectedSkillStepResources: Array<SkillStepResourceModel>
+  selectedSkillStepResources: Array<SkillStepResourceModel>;
+  favoriteSkills: Array<SkillModel>;
 };

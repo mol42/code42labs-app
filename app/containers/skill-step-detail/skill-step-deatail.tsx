@@ -58,6 +58,11 @@ function generateHtml(bodyContent: string | undefined) {
 const initialLayout = { width: Dimensions.get("window").width };
 const TYPE_VIDEO_RESOURCES = 1;
 const TYPE_LINK_RESOURCES = 2;
+const TAB_LINK_STYLE = { text: {
+  colors: {
+    primary: "white"
+  }
+} };
 
 export default function SkillStepDetailScreen(): JSX.Element {
   const dispatch = useDispatch();
@@ -113,17 +118,21 @@ export default function SkillStepDetailScreen(): JSX.Element {
         </View>
         <View style={styles.bottomContainer}>
           <TabView
-            style={{ padding: 0, margin: 0 }}
+            style={{ padding: 0, margin: 0, borderWidth: 0.5, borderColor: "#DDD" }}
             navigationState={{ index, routes }}
-            renderTabBar={props => <View style={{ flexDirection: "row" }}>
-              <View style={[styles.tabContainer, { backgroundColor: props.navigationState.index === 0 ? "#EEE" : "transparent" }]}>
-                <TouchableOpacity >
-                  <C42Text size={14} text={polyglot?.t("title_description")}></C42Text>
+            renderTabBar={props => <View style={{ flexDirection: "row", backgroundColor: "#86c4fd", marginHorizontal: 2, marginTop: 4, padding: 4, borderRadius: 8 }}>
+              <View style={[styles.tabContainer, { borderRadius: 8, backgroundColor: props.navigationState.index === 0 ? "#0182f7" : "transparent" }]}>
+                <TouchableOpacity onPress={() => {
+                  props.jumpTo("first");
+                }}>
+                  <C42Text size={14} text={polyglot?.t("title_description")} theme={TAB_LINK_STYLE}></C42Text>
                 </TouchableOpacity>
               </View>
-              <View style={[styles.tabContainer, { backgroundColor: props.navigationState.index === 1 ? "#EEE" : "transparent" }]}>
-                <TouchableOpacity>
-                  <C42Text size={14} text={polyglot?.t("title_additional_resources")}></C42Text>
+              <View style={[styles.tabContainer, { borderRadius: 8, backgroundColor: props.navigationState.index === 1 ? "#0182f7" : "transparent" }]}>
+                <TouchableOpacity onPress={() => {
+                  props.jumpTo("second");
+                }}>
+                  <C42Text size={14} text={polyglot?.t("title_additional_resources")} theme={TAB_LINK_STYLE}></C42Text>
                 </TouchableOpacity>
               </View>
             </View>}
@@ -134,7 +143,7 @@ export default function SkillStepDetailScreen(): JSX.Element {
                 </View>;
               },
               second: () => {
-                return (<><View>
+                return (<><View style={{ paddingHorizontal: 8, paddingTop: 8 }}>
                   <C42Text
                     size={18}
                     fontWeight={"bold"}
@@ -171,7 +180,7 @@ export default function SkillStepDetailScreen(): JSX.Element {
                     );
                   })}
                 </View>
-                <View>
+                <View style={{ paddingHorizontal: 8 }}>
                   <C42Text
                     size={18}
                     fontWeight={"bold"}

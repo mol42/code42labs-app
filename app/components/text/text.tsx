@@ -25,14 +25,16 @@ C42Text.defaultProps = {
   size: 14,
   text: "",
   fontWeight: "normal",
-  padding: {}
+  padding: {},
+  theme: null
 };
 
 C42Text.propTypes = {
   size: PropTypes.number,
   text: PropTypes.string,
   fontWeight: PropTypes.string,
-  padding: PropTypes.object
+  padding: PropTypes.object,
+  theme: PropTypes.object
 };
 
 export default C42Text;

@@ -1,15 +1,17 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, ImageBackground, Linking } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Dimensions, View, StyleSheet, ImageBackground, Linking } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import C42Text from "../../components/text/text";
 import { I18nContext } from "../../config/i18n";
 import { ThemeContext } from "../../config/theming";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { fetchSkillStepResources } from "../../redux/modules/skills/skills-reducer";
 import { RootState } from "../../redux/root-reducer";
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import { SkillStepResourceModel } from "../../models/skill-step-resource-model";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { TabView, SceneMap, TabBar } from "react-native-tab-view";
+import { WebView } from "react-native-webview";
 import { goBack } from "../../navigation/navigation";
 
 const styles = StyleSheet.create({
@@ -24,10 +26,14 @@ const styles = StyleSheet.create({
     height: 150,
   },
   bottomContainer: {
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 16,
+    flex: 1
   },
+  tabContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 8,
+  }
 });
 
 function getSkillImage(skillImage: string) {
@@ -37,17 +43,33 @@ function getSkillImage(skillImage: string) {
   }
 }
 
+function generateHtml(bodyContent: string | undefined) {
+  return `<html>
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  </head>
+  <body>
+  ${bodyContent}
+  </body>
+  </html>
+  `;
+}
+
+const initialLayout = { width: Dimensions.get("window").width };
 const TYPE_VIDEO_RESOURCES = 1;
 const TYPE_LINK_RESOURCES = 2;
 
 export default function SkillStepDetailScreen(): JSX.Element {
-  // const [webViewUrl, setWebViewUrl] = useState("");
   const dispatch = useDispatch();
   const polyglot = I18nContext.polyglot;
   const theme = ThemeContext.useTheme();
   const skillsState = useSelector((state: RootState) => state.skills);
   const safeAreaInsets = useSafeAreaInsets();
-  // const modalizeRef = useRef(null);
+  const [index, setIndex] = React.useState(0);
+  const [routes] = useState([
+    { key: "first", title: polyglot?.t("title_description") },
+    { key: "second", title: polyglot?.t("title_additional_resources") },
+  ]);
 
   const { selectedSkill, selectedSkillStep, selectedSkillStepResources } = skillsState;
   const skillImage = selectedSkill ? selectedSkill.image : "";
@@ -65,7 +87,7 @@ export default function SkillStepDetailScreen(): JSX.Element {
         { backgroundColor: theme.colors.backgroundColor },
       ]}
     >
-      <ScrollView style={styles.mainContainer}>
+      <View style={styles.mainContainer}>
         <View style={styles.topContainer}>
           <ImageBackground
             source={getSkillImage(skillImage)}
@@ -90,103 +112,109 @@ export default function SkillStepDetailScreen(): JSX.Element {
           </ImageBackground>
         </View>
         <View style={styles.bottomContainer}>
-          <View>
-            <C42Text
-              size={18}
-              fontWeight={"bold"}
-              text={polyglot?.t("title_description")}
-            ></C42Text>
-            <View style={{ height: 10 }}></View>
-            <C42Text
-              size={14}
-              fontWeight={"normal"}
-              text={selectedSkillStep?.longDescription}
-            ></C42Text>
-          </View>
-          <View
-            style={{
-              borderColor: "#EEEEEE",
-              borderWidth: 0.5,
-              marginTop: 16,
-              marginBottom: 16,
-            }}
-          ></View>
-          <View style={{ flex: 1 }}>
-            <C42Text
-              size={18}
-              fontWeight={"bold"}
-              text={polyglot?.t("title_skill_step_video_resources")}
-            ></C42Text>
-            <View style={{ height: 10 }}></View>
-            {selectedSkillStepResources.filter(item => item.type === TYPE_VIDEO_RESOURCES).map((item: SkillStepResourceModel) => {
-              return (
-                <TouchableOpacity onPress={() => {
-                  Linking.openURL(item.data["link"]);
-                }}>
-                  <View
-                    key={`key-${item.id}`}
-                    style={{
-                      paddingVertical: 10,
-                      marginBottom: 8,
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <C42Text
-                      size={16}
-                      fontWeight={"normal"}
-                      text={item.data["link"]}
-                    ></C42Text>
-                    <Entypo
-                      name="chevron-with-circle-right"
-                      size={24}
-                      color={theme.buttons.primary.color}
-                    />
-                  </View>
+          <TabView
+            style={{ padding: 0, margin: 0 }}
+            navigationState={{ index, routes }}
+            renderTabBar={props => <View style={{ flexDirection: "row" }}>
+              <View style={[styles.tabContainer, { backgroundColor: props.navigationState.index === 0 ? "#EEE" : "transparent" }]}>
+                <TouchableOpacity >
+                  <C42Text size={14} text={polyglot?.t("title_description")}></C42Text>
                 </TouchableOpacity>
-              );
-            })}
-          </View>
-          <View style={{ flex: 1 }}>
-            <C42Text
-              size={18}
-              fontWeight={"bold"}
-              text={polyglot?.t("title_skill_step_text_resources")}
-            ></C42Text>
-            <View style={{ height: 10 }}></View>
-            {selectedSkillStepResources.filter(item => item.type === TYPE_LINK_RESOURCES).map((item: SkillStepResourceModel) => {
-              return (
-                <TouchableOpacity onPress={() => {
-                  Linking.openURL(item.data["link"]);
-                }}>
-                  <View
-                    key={`key-${item.id}`}
-                    style={{
-                      paddingVertical: 10,
-                      marginBottom: 8,
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <C42Text
-                      size={16}
-                      fontWeight={"normal"}
-                      text={item.data["link"]}
-                    ></C42Text>
-                    <Entypo
-                      name="chevron-with-circle-right"
-                      size={24}
-                      color={theme.buttons.primary.color}
-                    />
-                  </View>
+              </View>
+              <View style={[styles.tabContainer, { backgroundColor: props.navigationState.index === 1 ? "#EEE" : "transparent" }]}>
+                <TouchableOpacity>
+                  <C42Text size={14} text={polyglot?.t("title_additional_resources")}></C42Text>
                 </TouchableOpacity>
-              );
+              </View>
+            </View>}
+            renderScene={SceneMap({
+              first: () => {
+                return <View style={{ flex: 1 }}>
+                  <WebView style={{ flex: 1 }} source={{ html: generateHtml(selectedSkillStep?.longDescription) }} />
+                </View>;
+              },
+              second: () => {
+                return (<><View>
+                  <C42Text
+                    size={18}
+                    fontWeight={"bold"}
+                    text={polyglot?.t("title_skill_step_video_resources")}
+                  ></C42Text>
+                  <View style={{ height: 10 }}></View>
+                  {selectedSkillStepResources.filter(item => item.type === TYPE_VIDEO_RESOURCES).map((item: SkillStepResourceModel) => {
+                    return (
+                      <TouchableOpacity onPress={() => {
+                        Linking.openURL(item.data["link"]);
+                      }}>
+                        <View
+                          key={`key-${item.id}`}
+                          style={{
+                            paddingVertical: 10,
+                            marginBottom: 8,
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          <C42Text
+                            size={16}
+                            fontWeight={"normal"}
+                            text={item.data["link"]}
+                          ></C42Text>
+                          <Entypo
+                            name="chevron-with-circle-right"
+                            size={24}
+                            color={theme.buttons.primary.color}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+                <View>
+                  <C42Text
+                    size={18}
+                    fontWeight={"bold"}
+                    text={polyglot?.t("title_skill_step_text_resources")}
+                  ></C42Text>
+                  <View style={{ height: 10 }}></View>
+                  {selectedSkillStepResources.filter(item => item.type === TYPE_LINK_RESOURCES).map((item: SkillStepResourceModel) => {
+                    return (
+                      <TouchableOpacity onPress={() => {
+                        Linking.openURL(item.data["link"]);
+                      }}>
+                        <View
+                          key={`key-${item.id}`}
+                          style={{
+                            paddingVertical: 10,
+                            marginBottom: 8,
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          <C42Text
+                            size={16}
+                            fontWeight={"normal"}
+                            text={item.data["link"]}
+                          ></C42Text>
+                          <Entypo
+                            name="chevron-with-circle-right"
+                            size={24}
+                            color={theme.buttons.primary.color}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View></>);
+              },
             })}
-          </View>
+            onIndexChange={setIndex}
+            initialLayout={initialLayout}
+          />
         </View>
-      </ScrollView>
+      </View>
       <View style={{ position: "absolute", width: "100%", paddingTop: safeAreaInsets.top, paddingLeft: 16 }}>
         <TouchableOpacity onPress={() => {
           goBack();

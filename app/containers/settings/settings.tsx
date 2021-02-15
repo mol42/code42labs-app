@@ -1,43 +1,55 @@
-import * as React from 'react';
-import { View, StyleSheet, SafeAreaView, Text } from "react-native";
+import * as React from "react";
+import { View, StyleSheet, Text } from "react-native";
 import { useDispatch } from "react-redux";
-import { doLogout } from "../../redux/modules/auth/auth-reducer";
-import C42PrimaryButton from "../../components/button/primary";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ThemeContext } from "../../config/theming";
+import { I18nContext } from "../../config/i18n";
+import C42Text from "../../components/text/text";
 
 const styles = StyleSheet.create({
-    safeArea: {
-        flex: 1,
-        backgroundColor: "black"
-    },
-    mainContainer: {
-        flex: 1,
-        backgroundColor: "black"
-    },
-    topContainer: {
-        flex: 5
-    },
-    bottomContainer: {
-        flex: 2,
-        paddingTop: 50,
-        flexDirection: "row",
-        justifyContent: "center",
-        paddingHorizontal: 24
-    }
+  safeArea: {
+    flex: 1,
+    paddingHorizontal: 16,
+  },
+  mainContainer: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  topContainer: {
+    paddingBottom: 20,
+  },
+  bottomContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+  },
 });
 
 export default function SkillsScreen() {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const theme = ThemeContext.useTheme();
+  const polyglot = I18nContext.polyglot;
 
-    return (<SafeAreaView style={styles.safeArea}>
-        <View style={styles.mainContainer}>
-            <View style={styles.topContainer}>
-            <Text style={{color:"white"}}> SETTINGS</Text>
-            </View>
-            <View style={styles.bottomContainer}>
-                <View style={{ flex: 1 }}>
-                    
-                </View>
-            </View>
+  return (<SafeAreaView
+    style={[
+      styles.safeArea,
+      { backgroundColor: theme.colors.backgroundColor },
+    ]}
+    edges={["top"]}
+  >
+    <View style={styles.mainContainer}>
+      <View style={styles.topContainer}>
+        <C42Text
+          size={36}
+          fontWeight={"bold"}
+          text={polyglot?.t("title_settings")}
+        ></C42Text>
+      </View>
+      <View style={styles.bottomContainer}>
+        <View style={{ flex: 1 }}>
+
         </View>
-    </SafeAreaView>);
+      </View>
+    </View>
+  </SafeAreaView>);
 }

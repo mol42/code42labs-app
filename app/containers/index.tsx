@@ -1,5 +1,6 @@
 import "react-native-gesture-handler";
 import * as React from "react";
+import { TouchableOpacity, View, Text } from "react-native";
 import { useSelector } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 // web modunda iken alttaki paket
@@ -11,6 +12,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createBottomTabNavigator } from "react-navigation-bottom-tabs-no-warnings";
 import { RootState } from "../redux/root-reducer";
+import { I18nContext } from "../config/i18n";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import LoginScreen from "./login/login";
 import WelcomeScreen from "./welcome/welcome";
@@ -26,6 +29,63 @@ const MainStack = createStackNavigator();
 const SkillsStack = createStackNavigator();
 const MySkillsStack = createStackNavigator();
 const TabbedStack = createBottomTabNavigator();
+
+const TAB_TITLE_KEYS = ["tab_dashboard", "tab_my_skills", "tab_all_skills", "tab_settings"];
+
+function MyTabBar({ state, descriptors, navigation }: { state: any, descriptors: any, navigation: any }) {
+  const focusedOptions = descriptors[state.routes[state.index].key].options;
+  const polyglot = I18nContext.polyglot;
+  const safeAreaInsets = useSafeAreaInsets();
+
+  if (focusedOptions.tabBarVisible === false) {
+    return null;
+  }
+
+  return (
+    <View style={{ flexDirection: "row" }}>
+      {state.routes.map((route: any, index: number) => {
+        const { options } = descriptors[route.key];
+        const isFocused = state.index === index;
+
+        const onPress = () => {
+          const event = navigation.emit({
+            type: "tabPress",
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name);
+          }
+        };
+
+        const onLongPress = () => {
+          navigation.emit({
+            type: "tabLongPress",
+            target: route.key,
+          });
+        };
+
+        return (
+          <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityState={isFocused ? { selected: true } : {}}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
+            testID={options.tabBarTestID}
+            onPress={onPress}
+            onLongPress={onLongPress}
+            style={{ flex: 1, height: 40 + safeAreaInsets.bottom, justifyContent: "center", alignItems: "center" }}
+          >
+            <Text style={{ color: isFocused ? "#673ab7" : "#222" }}>
+              {polyglot?.t(TAB_TITLE_KEYS[index])}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+}
+
 
 function SkillsTab() {
   return (
@@ -49,7 +109,7 @@ function MySkillsTab() {
 
 function TabScreen() {
   return (
-    <TabbedStack.Navigator lazy={true}>
+    <TabbedStack.Navigator tabBar={props => <MyTabBar {...props} />} lazy={true}>
       <TabbedStack.Screen name="DashboardScreen" component={DashboardScreen} />
       <TabbedStack.Screen name="MySkillsTab" component={MySkillsTab} />
       <TabbedStack.Screen name="SkillsTab" component={SkillsTab} />

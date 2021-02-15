@@ -13,7 +13,11 @@ const lang_en = {
   title_my_skills: "My Skills",
   title_additional_resources: "Resources",
   title_settings: "Settings",
-  title_settings_dark_theme: "Dark Theme"
+  title_settings_dark_theme: "Dark Theme",
+  tab_dashboard: "Dashboard",
+  tab_my_skills: "My Skills",
+  tab_all_skills: "Skills",
+  tab_settings: "Settings"
 };
 
 const lang_tr = {
@@ -29,7 +33,11 @@ const lang_tr = {
   title_my_skills: "Skillerim",
   title_additional_resources: "Ek Kaynaklar",
   title_settings: "Ayarlar",
-  title_settings_dark_theme: "Dark Tema"
+  title_settings_dark_theme: "Dark Tema",
+  tab_dashboard: "Ana Sayfa",
+  tab_my_skills: "Skillerim",
+  tab_all_skills: "Skiller",
+  tab_settings: "Ayarlar"
 };
 
 type I18nContextType = {

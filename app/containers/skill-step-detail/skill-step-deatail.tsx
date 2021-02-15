@@ -60,7 +60,7 @@ const TYPE_VIDEO_RESOURCES = 1;
 const TYPE_LINK_RESOURCES = 2;
 const TAB_LINK_STYLE = { text: {
   colors: {
-    primary: "white"
+    primary: "black"
   }
 } };
 
@@ -120,15 +120,15 @@ export default function SkillStepDetailScreen(): JSX.Element {
           <TabView
             style={{ padding: 0, margin: 0, borderWidth: 0.5, borderColor: "#DDD" }}
             navigationState={{ index, routes }}
-            renderTabBar={props => <View style={{ flexDirection: "row", backgroundColor: "#86c4fd", marginHorizontal: 2, marginTop: 4, padding: 4, borderRadius: 8 }}>
-              <View style={[styles.tabContainer, { borderRadius: 8, backgroundColor: props.navigationState.index === 0 ? "#0182f7" : "transparent" }]}>
+            renderTabBar={props => <View style={{ flexDirection: "row", backgroundColor: "#eeeeee", marginHorizontal: 2, marginTop: 4, padding: 4, borderRadius: 8 }}>
+              <View style={[styles.tabContainer, { borderRadius: 8, backgroundColor: props.navigationState.index === 0 ? "#cccccc" : "transparent" }]}>
                 <TouchableOpacity onPress={() => {
                   props.jumpTo("first");
                 }}>
                   <C42Text size={14} text={polyglot?.t("title_description")} theme={TAB_LINK_STYLE}></C42Text>
                 </TouchableOpacity>
               </View>
-              <View style={[styles.tabContainer, { borderRadius: 8, backgroundColor: props.navigationState.index === 1 ? "#0182f7" : "transparent" }]}>
+              <View style={[styles.tabContainer, { borderRadius: 8, backgroundColor: props.navigationState.index === 1 ? "#cccccc" : "transparent" }]}>
                 <TouchableOpacity onPress={() => {
                   props.jumpTo("second");
                 }}>

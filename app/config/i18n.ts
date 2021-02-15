@@ -12,7 +12,8 @@ const lang_en = {
   title_skill_step_text_resources: "Text Resources",
   title_my_skills: "My Skills",
   title_additional_resources: "Resources",
-  title_settings: "Settings"
+  title_settings: "Settings",
+  title_settings_dark_theme: "Dark Theme"
 };
 
 const lang_tr = {
@@ -27,7 +28,8 @@ const lang_tr = {
   title_skill_step_text_resources: "Metin Kaynaklar",
   title_my_skills: "Skillerim",
   title_additional_resources: "Ek Kaynaklar",
-  title_settings: "Ayarlar"
+  title_settings: "Ayarlar",
+  title_settings_dark_theme: "Dark Tema"
 };
 
 type I18nContextType = {

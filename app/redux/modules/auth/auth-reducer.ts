@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { AuthState } from "./auth-types";
-import { UserModel } from "../../../models/auth-model";
+import { UserModel } from "../../../models/user-model";
 import { authApi_login, authApi_signup } from "./auth-api";
 import { UserCredentials, AuthError, NewUser } from "./auth-types";
 import { showMessage } from "react-native-flash-message";
 import { ErrorCodesMap } from "../../../config/error-constants";
 import { GlobalConstants } from "../../../config/global-constants";
 import LocalStorage from "../../../config/storage";
+import { initGlobalTheme, setIsInited } from "../global/global-reducer";
 
 export const initAuth = createAsyncThunk<
   any,
@@ -14,12 +15,26 @@ export const initAuth = createAsyncThunk<
   { rejectValue: AuthError }
 >("auth/initApp", async (_ :any, thunkAPI: any) => {
   try {
-    const authData = await LocalStorage.load({
-      key: "authData"
+    const userData = await LocalStorage.load({
+      key: "userData"
     });
-    thunkAPI.dispatch(setUser(authData.user));
-    thunkAPI.dispatch(setAuthToken(authData.xAuthToken));
-  } catch (err) { }
+    const xAuthToken = await LocalStorage.load({
+      key: "xAuthToken"
+    });
+    if (userData && xAuthToken) {
+      thunkAPI.dispatch(setUser(userData));
+      thunkAPI.dispatch(setAuthToken(xAuthToken));
+      //
+      thunkAPI.dispatch(initGlobalTheme(userData.selectedTheme));
+    } else {
+      thunkAPI.dispatch(initGlobalTheme(0));
+    }
+  } catch (err) {
+    console.log(err);
+    thunkAPI.dispatch(initGlobalTheme(0));
+  } finally {
+    thunkAPI.dispatch(setIsInited(true));
+  }
 });
 
 export const doLogin = createAsyncThunk<
@@ -40,11 +55,17 @@ export const doLogin = createAsyncThunk<
     const loginResult = await authApi_login(loginUser);
     if (loginResult.status === "ok") {
       LocalStorage.save({
-        key: "authData",
-        data: loginResult.data
+        key: "userData",
+        data: loginResult.data.user
+      });
+      LocalStorage.save({
+        key: "xAuthToken",
+        data: loginResult.data.xAuthToken
       });
       thunkAPI.dispatch(setUser(loginResult.data.user));
       thunkAPI.dispatch(setAuthToken(loginResult.data.xAuthToken));
+      //
+      thunkAPI.dispatch(initGlobalTheme(loginResult.data.user.selectedTheme));
     } else {
       // typescipt bir constnt icindeki keyleri kontrol ettigi icin ve
       // dinamik olarak bir keyi kabul etmedigi icin varsayilan olarak

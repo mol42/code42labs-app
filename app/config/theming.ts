@@ -1,19 +1,32 @@
 import { createTheming } from "@callstack/react-theme-provider";
 
-const darkTheme = {
+export const darkTheme = {
   colors: {
-    primary: "",
+    primary: "#FF0000",
     secondary: "",
-    backgroundColor: "",
+    backgroundColor: "#FFFFFF",
   },
   buttons: {
     primary: {
-      color: "blue",
+      color: "#FF0000",
+      textColor: "white",
+    },
+    common: {
+      color: "white",
+      textColor: "black",
+    },
+  },
+  text: {
+    colors: {
+      primary: "black",
+    },
+    sizes: {
+      h1: 24,
     },
   },
 };
 
-const whiteTheme = {
+export const whiteTheme = {
   colors: {
     primary: "#1E59F5",
     secondary: "",
@@ -51,8 +64,8 @@ export const ThemeContext: ThemeContextType = {
   useTheme: null,
 };
 
-export function initTheme(baseTheme: string): void {
-  const { ThemeProvider, withTheme, useTheme } = createTheming(whiteTheme);
+export function initTheme(theme: any): void {
+  const { ThemeProvider, withTheme, useTheme } = createTheming(theme);
   ThemeContext.ThemeProvider = ThemeProvider;
   ThemeContext.withTheme = withTheme;
   ThemeContext.useTheme = useTheme;

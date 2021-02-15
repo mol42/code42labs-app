@@ -1,10 +1,11 @@
-import * as React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, Switch } from "react-native";
 import { useDispatch } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemeContext } from "../../config/theming";
 import { I18nContext } from "../../config/i18n";
 import C42Text from "../../components/text/text";
+import { setTheme } from "../../redux/modules/global/global-reducer";
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -23,12 +24,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
   },
+  settingLine: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  }
 });
 
-export default function SkillsScreen() {
+export default function SkillsScreen(): JSX.Element {
   const dispatch = useDispatch();
   const theme = ThemeContext.useTheme();
   const polyglot = I18nContext.polyglot;
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => {
+    dispatch(setTheme("dark"));
+    setIsEnabled((previousState: boolean) => !previousState);
+  };
+
 
   return (<SafeAreaView
     style={[
@@ -47,7 +59,16 @@ export default function SkillsScreen() {
       </View>
       <View style={styles.bottomContainer}>
         <View style={{ flex: 1 }}>
-
+          <View style={styles.settingLine}>
+            <C42Text size={14} text={"Tema"}></C42Text>
+            <Switch
+              trackColor={{ false: "#767577", true: "#81b0ff" }}
+              thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+            />
+          </View>
         </View>
       </View>
     </View>

@@ -1,11 +1,23 @@
-export type GlobalState = {
-    firstName: string
-}
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { GlobalState } from "./global-types";
 
 const initialState: GlobalState = {
-    firstName: "tayfun"
-}
+  firstName: "tayfun",
+  theme: "white"
+};
 
-export default function (oldState: GlobalState = initialState, action: any) {
-    return oldState;
-}
+export const globalSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    setTheme(state, { payload }: PayloadAction<string>) {
+      state.theme = payload;
+    },
+  }
+});
+
+export const {
+  setTheme
+} = globalSlice.actions;
+
+export default globalSlice.reducer;

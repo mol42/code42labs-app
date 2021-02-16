@@ -90,7 +90,7 @@ function MyTabBar({ state, descriptors, navigation }: { state: any, descriptors:
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{ flex: 1, height: 40 + safeAreaInsets.bottom, justifyContent: "center", alignItems: "center" }}
+            style={{ flex: 1, height: 50 + safeAreaInsets.bottom, justifyContent: "center", alignItems: "center" }}
           >
             {resolveTabIcon(index, state.index)}
             <Text style={{ color: isFocused ? "#673ab7" : "#222" }}>

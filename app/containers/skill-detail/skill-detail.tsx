@@ -101,8 +101,8 @@ export default function SkillDetailScreen(): JSX.Element {
           </View>
           <View
             style={{
-              borderColor: "#EEEEEE",
-              borderWidth: 0.5,
+              // borderColor: "#DDD",
+              // borderWidth: 0.5,
               marginTop: 16,
               marginBottom: 16,
             }}
@@ -123,7 +123,7 @@ export default function SkillDetailScreen(): JSX.Element {
                   <View
                     key={`key-${item.id}`}
                     style={{
-                      borderBottomWidth: 1,
+                      borderBottomWidth: 0.5,
                       borderColor: "#DDD",
                       padding: 10,
                       marginBottom: 8,

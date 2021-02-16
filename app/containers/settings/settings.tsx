@@ -65,9 +65,6 @@ export default function SkillsScreen(): JSX.Element {
             <View style={styles.settingLine}>
               <C42Text size={16} text={polyglot?.t("title_settings_dark_theme")}></C42Text>
               <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={globalState.theme === "dark" ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleSwitch}
                 value={globalState.theme === "dark"}
               />

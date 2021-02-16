@@ -2,13 +2,20 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { GlobalState } from "./global-types";
 import { globalApi_updateTheme } from "./global-api";
 import { initTheme, whiteTheme, darkTheme } from "../../../config/theming";
+import LocalStorage from "../../../config/storage";
+import { setUser } from "../auth/auth-reducer";
 
 export const updateProfileTheme = createAsyncThunk(
   "global/updateProfileTheme",
   async (theme :string, thunkAPI: any) => {
     try {
-      const updateResult = await globalApi_updateTheme(theme);
+      const updatedProfileResult = await globalApi_updateTheme(theme);
       thunkAPI.dispatch(setTheme(theme));
+      LocalStorage.save({
+        key: "userData",
+        data: updatedProfileResult.data
+      });
+      thunkAPI.dispatch(setUser(updatedProfileResult.data));
     } catch (err) {
       console.log(err);
     }

@@ -44,6 +44,11 @@ export default function DashboardScreen(): JSX.Element {
   >
     <View style={styles.mainContainer}>
       <View style={styles.topContainer}>
+        <C42Text
+          size={36}
+          fontWeight={"bold"}
+          text={polyglot?.t("title_dashboard")}
+        ></C42Text>
       </View>
       <View style={styles.bottomContainer}>
         <View style={{ flex: 1 }}>

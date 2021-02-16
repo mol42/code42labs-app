@@ -123,9 +123,8 @@ export default function SkillDetailScreen(): JSX.Element {
                   <View
                     key={`key-${item.id}`}
                     style={{
-                      borderWidth: 1,
+                      borderBottomWidth: 1,
                       borderColor: "#DDD",
-                      borderRadius: 10,
                       padding: 10,
                       marginBottom: 8,
                       flexDirection: "row",

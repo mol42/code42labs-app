@@ -7,6 +7,8 @@ import { I18nContext } from "../../config/i18n";
 import C42Text from "../../components/text/text";
 import { updateProfileTheme } from "../../redux/modules/global/global-reducer";
 import { RootState } from "../../redux/root-reducer";
+import { doLogout } from "../../redux/modules/auth/auth-reducer";
+import C42PrimaryButton from "../../components/button/primary";
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -59,15 +61,20 @@ export default function SkillsScreen(): JSX.Element {
       </View>
       <View style={styles.bottomContainer}>
         <View style={{ flex: 1 }}>
-          <View style={styles.settingLine}>
-            <C42Text size={16} text={polyglot?.t("title_settings_dark_theme")}></C42Text>
-            <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={globalState.theme === "dark" ? "#f5dd4b" : "#f4f3f4"}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={globalState.theme === "dark"}
-            />
+          <View style={{ flex: 1 }}>
+            <View style={styles.settingLine}>
+              <C42Text size={16} text={polyglot?.t("title_settings_dark_theme")}></C42Text>
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={globalState.theme === "dark" ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={globalState.theme === "dark"}
+              />
+            </View>
+          </View>
+          <View style={{ height: 80, justifyContent: "center" }}>
+            <C42PrimaryButton text={"Logout"} onPress={() => dispatch(doLogout(null))}></C42PrimaryButton>
           </View>
         </View>
       </View>

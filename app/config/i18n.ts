@@ -17,7 +17,8 @@ const lang_en = {
   tab_dashboard: "Dashboard",
   tab_my_skills: "My Skills",
   tab_all_skills: "Skills",
-  tab_settings: "Settings"
+  tab_settings: "Settings",
+  title_dashboard: "Dashboard"
 };
 
 const lang_tr = {
@@ -37,7 +38,8 @@ const lang_tr = {
   tab_dashboard: "Ana Sayfa",
   tab_my_skills: "Skillerim",
   tab_all_skills: "Skiller",
-  tab_settings: "Ayarlar"
+  tab_settings: "Ayarlar",
+  title_dashboard: "Ana Sayfa"
 };
 
 type I18nContextType = {

@@ -117,6 +117,22 @@ export const doSignup = createAsyncThunk<
   } catch (err) { }
 });
 
+export const doLogout = createAsyncThunk<
+  any,
+  null,
+  { rejectValue: AuthError }
+>("auth/doLogout", async (_:any, thunkAPI: any) => {
+  try {
+    LocalStorage.remove({
+      key: "userData"
+    });
+    LocalStorage.remove({
+      key: "xAuthToken"
+    });
+    thunkAPI.dispatch(clearUser(null));
+  } catch (err) { }
+});
+
 const initialState: AuthState = {
   firstName: "",
   lastName: "",
@@ -162,7 +178,7 @@ export const authSlice = createSlice({
     setUser(state, { payload }: PayloadAction<UserModel>) {
       state.user = payload;
     },
-    doLogout(state, { payload }: PayloadAction<null>) {
+    clearUser(state, { payload }: PayloadAction<null>) {
       state.user = null;
     },
   },
@@ -186,7 +202,7 @@ export const {
   setUser,
   setSignupSuccess,
   setAuthToken,
-  doLogout,
+  clearUser
 } = authSlice.actions;
 
 export default authSlice.reducer;

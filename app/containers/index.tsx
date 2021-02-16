@@ -14,6 +14,7 @@ import { createBottomTabNavigator } from "react-navigation-bottom-tabs-no-warnin
 import { RootState } from "../redux/root-reducer";
 import { I18nContext } from "../config/i18n";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 
 import LoginScreen from "./login/login";
 import WelcomeScreen from "./welcome/welcome";
@@ -31,6 +32,21 @@ const MySkillsStack = createStackNavigator();
 const TabbedStack = createBottomTabNavigator();
 
 const TAB_TITLE_KEYS = ["tab_dashboard", "tab_my_skills", "tab_all_skills", "tab_settings"];
+
+function resolveTabIcon(index: number, selectedIndex: number) {
+  const isFocused = selectedIndex === index;
+
+  if (index === 0) {
+    return <Ionicons name="home" size={24} color={isFocused ? "#673ab7" : "#222" } />;
+  } else if (index === 1) {
+    return <Ionicons name="bookmark" size={24} color={isFocused ? "#673ab7" : "#222" } />;
+  } else if (index === 2) {
+    return <Ionicons name="md-list-circle" size={24} color={isFocused ? "#673ab7" : "#222" } />;
+  } else if (index === 3) {
+    return <Ionicons name="ios-settings" size={24} color={isFocused ? "#673ab7" : "#222" } />;
+  }
+  return null;
+}
 
 function MyTabBar({ state, descriptors, navigation }: { state: any, descriptors: any, navigation: any }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
@@ -76,6 +92,7 @@ function MyTabBar({ state, descriptors, navigation }: { state: any, descriptors:
             onLongPress={onLongPress}
             style={{ flex: 1, height: 40 + safeAreaInsets.bottom, justifyContent: "center", alignItems: "center" }}
           >
+            {resolveTabIcon(index, state.index)}
             <Text style={{ color: isFocused ? "#673ab7" : "#222" }}>
               {polyglot?.t(TAB_TITLE_KEYS[index])}
             </Text>

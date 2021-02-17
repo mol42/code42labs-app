@@ -1,5 +1,6 @@
 export type GlobalState = {
-  theme: string;
+  theme: number;
+  language: number;
   isInited: boolean;
 }
 

@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { GlobalState } from "./global-types";
-import { globalApi_updateTheme } from "./global-api";
+import { globalApi_updateTheme, globalApi_updateLanguage } from "./global-api";
 import { initTheme, whiteTheme, darkTheme } from "../../../config/theming";
 import LocalStorage from "../../../config/storage";
-import { setUser } from "../auth/auth-reducer";
+import { ReduxActions } from "../redux-constants";
+import { initI18n } from "../../../config/i18n";
 
 export const updateProfileTheme = createAsyncThunk(
   "global/updateProfileTheme",
-  async (theme :string, thunkAPI: any) => {
+  async (theme :number, thunkAPI: any) => {
     try {
       const updatedProfileResult = await globalApi_updateTheme(theme);
       thunkAPI.dispatch(setTheme(theme));
@@ -15,7 +16,25 @@ export const updateProfileTheme = createAsyncThunk(
         key: "userData",
         data: updatedProfileResult.data
       });
-      thunkAPI.dispatch(setUser(updatedProfileResult.data));
+      thunkAPI.dispatch(ReduxActions.auth.setUser(updatedProfileResult.data));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
+export const updateProfileLanguage = createAsyncThunk(
+  "global/updateProfileLanguage",
+  async (language :number, thunkAPI: any) => {
+    try {
+      const updatedProfileResult = await globalApi_updateLanguage(language);
+      initI18n(language);
+      thunkAPI.dispatch(setLanguage(language));
+      LocalStorage.save({
+        key: "userData",
+        data: updatedProfileResult.data
+      });
+      thunkAPI.dispatch(ReduxActions.auth.setUser(updatedProfileResult.data));
     } catch (err) {
       console.log(err);
     }
@@ -28,15 +47,34 @@ export const initGlobalTheme = createAsyncThunk(
     try {
       const selectedTheme = userTheme === 0 ? whiteTheme : darkTheme;
       initTheme(selectedTheme);
-      thunkAPI.dispatch(setTheme(userTheme === 0 ? "normal" : "dark"));
+      thunkAPI.dispatch(setTheme(userTheme));
     } catch (err) {
       console.log(err);
     }
   }
 );
 
+export const initGlobalLanguage = createAsyncThunk(
+  "global/initGlobalLanguage",
+  async (language :number, thunkAPI: any) => {
+    try {
+      initI18n(language);
+      thunkAPI.dispatch(setLanguage(language));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
+const LANG_EN = 0;
+const LANG_TR = 1;
+
+const THEME_NORMAL = 0;
+const THEME_DARK = 1;
+
 const initialState: GlobalState = {
-  theme: "white",
+  theme: THEME_NORMAL,
+  language: LANG_EN,
   isInited: false
 };
 
@@ -44,8 +82,11 @@ export const globalSlice = createSlice({
   name: "global",
   initialState,
   reducers: {
-    setTheme(state, { payload }: PayloadAction<string>) {
+    setTheme(state, { payload }: PayloadAction<number>) {
       state.theme = payload;
+    },
+    setLanguage(state, { payload }: PayloadAction<number>) {
+      state.language = payload;
     },
     setIsInited(state, { payload }: PayloadAction<boolean>) {
       state.isInited = payload;
@@ -55,7 +96,16 @@ export const globalSlice = createSlice({
 
 export const {
   setTheme,
+  setLanguage,
   setIsInited
 } = globalSlice.actions;
+
+ReduxActions.global = {
+  setTheme,
+  setIsInited,
+  updateProfileTheme,
+  initGlobalTheme,
+  initGlobalLanguage
+};
 
 export default globalSlice.reducer;

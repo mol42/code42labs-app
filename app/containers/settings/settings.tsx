@@ -5,10 +5,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemeContext } from "../../config/theming";
 import { I18nContext } from "../../config/i18n";
 import C42Text from "../../components/text/text";
-import { updateProfileTheme } from "../../redux/modules/global/global-reducer";
+import { updateProfileTheme, updateProfileLanguage } from "../../redux/modules/global/global-reducer";
 import { RootState } from "../../redux/root-reducer";
 import { doLogout } from "../../redux/modules/auth/auth-reducer";
 import C42PrimaryButton from "../../components/button/primary";
+import SegmentedControl from "rn-segmented-control";
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -30,7 +31,8 @@ const styles = StyleSheet.create({
   settingLine: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
+    paddingBottom: 8
   }
 });
 
@@ -40,8 +42,11 @@ export default function SkillsScreen(): JSX.Element {
   const polyglot = I18nContext.polyglot;
   const globalState = useSelector((state: RootState) => state.global);
   const toggleSwitch = () => {
-    const toggledTheme = globalState.theme === "dark" ? "normal" : "dark";
+    const toggledTheme = globalState.theme === 1 ? 0 : 1;
     dispatch(updateProfileTheme(toggledTheme));
+  };
+  const updateLanguage = (language: number) => {
+    dispatch(updateProfileLanguage(language));
   };
 
   return (<SafeAreaView
@@ -66,8 +71,25 @@ export default function SkillsScreen(): JSX.Element {
               <C42Text size={16} text={polyglot?.t("title_settings_dark_theme")}></C42Text>
               <Switch
                 onValueChange={toggleSwitch}
-                value={globalState.theme === "dark"}
+                value={globalState.theme === 1}
               />
+            </View>
+            <View style={styles.settingLine}>
+              <C42Text size={16} text={polyglot?.t("title_settings_language")}></C42Text>
+              <View style={{ width: 240, flexDirection: "row", justifyContent: "flex-end" }}>
+                <SegmentedControl
+                  tabs={["English", "Türkçe"]}
+                  currentIndex={globalState.language}
+                  paddingVertical={8}
+                  containerStyle={{
+                    marginVertical: 0,
+                  }}
+                  width={200}
+                  onChange={index => {
+                    updateLanguage(index);
+                  }}
+                />
+              </View>
             </View>
           </View>
           <View style={{ height: 80, justifyContent: "center" }}>

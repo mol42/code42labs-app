@@ -18,7 +18,8 @@ const lang_en = {
   tab_my_skills: "My Skills",
   tab_all_skills: "Skills",
   tab_settings: "Settings",
-  title_dashboard: "Dashboard"
+  title_dashboard: "Dashboard",
+  title_settings_language: "Language"
 };
 
 const lang_tr = {
@@ -39,7 +40,8 @@ const lang_tr = {
   tab_my_skills: "Skillerim",
   tab_all_skills: "Skiller",
   tab_settings: "Ayarlar",
-  title_dashboard: "Ana Sayfa"
+  title_dashboard: "Ana Sayfa",
+  title_settings_language: "Dil"
 };
 
 type I18nContextType = {
@@ -50,9 +52,9 @@ export const I18nContext: I18nContextType = {
   polyglot: null,
 };
 
-export function initI18n(selectedLanguage: string): void {
+export function initI18n(language: number): void {
   const polyglot = new Polyglot();
-  const selectedConfig = selectedLanguage === "en" ? lang_en : lang_tr;
+  const selectedConfig = language === 0 ? lang_en : lang_tr;
   polyglot.extend(selectedConfig);
   I18nContext.polyglot = polyglot;
 }

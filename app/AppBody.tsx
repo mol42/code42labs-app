@@ -12,7 +12,6 @@ import AppNavigationContainer from "./containers";
 // olmali.
 import { navigationRef } from "./navigation/navigation";
 import { ThemeContext, whiteTheme, darkTheme } from "./config/theming";
-import { initI18n } from "./config/i18n";
 import { initAuth } from "./redux/modules/auth/auth-reducer";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "./redux/root-reducer";
@@ -20,10 +19,9 @@ import { RootState } from "./redux/root-reducer";
 export default function AppBody(props: any): JSX.Element {
   const dispatch = useDispatch();
   const globalState = useSelector((state: RootState) => state.global);
-  const selectedTheme = globalState.theme === "normal" ? whiteTheme : darkTheme;
+  const selectedTheme = globalState.theme === 0 ? whiteTheme : darkTheme;
 
   useEffect(function() {
-    initI18n("tr");
     dispatch(initAuth(null));
   }, []);
 
@@ -31,7 +29,7 @@ export default function AppBody(props: any): JSX.Element {
     return <></>;
   }
 
-  return <ThemeContext.ThemeProvider theme={selectedTheme}>
+  return <ThemeContext.ThemeProvider theme={selectedTheme} language={globalState.language}>
     <NavigationContainer ref={navigationRef}>
       <AppNavigationContainer/>
     </NavigationContainer>

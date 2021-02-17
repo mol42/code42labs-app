@@ -7,7 +7,7 @@ import { showMessage } from "react-native-flash-message";
 import { ErrorCodesMap } from "../../../config/error-constants";
 import { GlobalConstants } from "../../../config/global-constants";
 import LocalStorage from "../../../config/storage";
-import { initGlobalTheme, setIsInited } from "../global/global-reducer";
+import { ReduxActions } from "../redux-constants";
 
 export const initAuth = createAsyncThunk<
   any,
@@ -25,15 +25,17 @@ export const initAuth = createAsyncThunk<
       thunkAPI.dispatch(setUser(userData));
       thunkAPI.dispatch(setAuthToken(xAuthToken));
       //
-      thunkAPI.dispatch(initGlobalTheme(userData.selectedTheme));
+      thunkAPI.dispatch(ReduxActions.global.initGlobalLanguage(userData.language));
+      thunkAPI.dispatch(ReduxActions.global.initGlobalTheme(userData.theme));
     } else {
-      thunkAPI.dispatch(initGlobalTheme(0));
+      thunkAPI.dispatch(ReduxActions.global.initGlobalLanguage(0));
+      thunkAPI.dispatch(ReduxActions.global.initGlobalTheme(0));
     }
   } catch (err) {
-    console.log(err);
-    thunkAPI.dispatch(initGlobalTheme(0));
+    thunkAPI.dispatch(ReduxActions.global.initGlobalLanguage(0));
+    thunkAPI.dispatch(ReduxActions.global.initGlobalTheme(0));
   } finally {
-    thunkAPI.dispatch(setIsInited(true));
+    thunkAPI.dispatch(ReduxActions.global.setIsInited(true));
   }
 });
 
@@ -65,7 +67,7 @@ export const doLogin = createAsyncThunk<
       thunkAPI.dispatch(setUser(loginResult.data.user));
       thunkAPI.dispatch(setAuthToken(loginResult.data.xAuthToken));
       //
-      thunkAPI.dispatch(initGlobalTheme(loginResult.data.user.selectedTheme));
+      thunkAPI.dispatch(ReduxActions.global.initGlobalTheme(loginResult.data.user.theme));
     } else {
       // typescipt bir constnt icindeki keyleri kontrol ettigi icin ve
       // dinamik olarak bir keyi kabul etmedigi icin varsayilan olarak
@@ -204,5 +206,19 @@ export const {
   setAuthToken,
   clearUser
 } = authSlice.actions;
+
+//
+ReduxActions.auth = {
+  changeFirstName,
+  changeLastName,
+  changeEmail,
+  changePassword,
+  setSignupError,
+  clearSignupError,
+  setUser,
+  setSignupSuccess,
+  setAuthToken,
+  clearUser
+};
 
 export default authSlice.reducer;

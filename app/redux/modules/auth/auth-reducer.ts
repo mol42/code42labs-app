@@ -207,7 +207,8 @@ export const {
   clearUser
 } = authSlice.actions;
 
-//
+// import cycle problemi icin. Detayli
+// aciklama redux-constants.ts icinde
 ReduxActions.auth = {
   changeFirstName,
   changeLastName,

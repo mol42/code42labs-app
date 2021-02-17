@@ -100,6 +100,8 @@ export const {
   setIsInited
 } = globalSlice.actions;
 
+// import cycle problemi icin. Detayli
+// aciklama redux-constants.ts icinde
 ReduxActions.global = {
   setTheme,
   setIsInited,

@@ -70,8 +70,8 @@ export default function DashboardScreen(): JSX.Element {
               return (<TouchableOpacity onPress={() => {
                 navigate("SkillNewsDetailScreen", item.id);
               }} style={{ flexDirection: "row", height: 80 }}>
-                <View style={{ justifyContent: "center", alignItems: "center", width: 120, height: 80 }}>
-                  <Image source={{ uri: item.smallImage }} style={{ width: 110, height: 80, borderRadius: 5 }}/>
+                <View style={{ justifyContent: "center", alignItems: "center", width: 100, height: 80, marginRight: 5 }}>
+                  <Image source={{ uri: item.smallImage }} style={{ width: 100, height: 80, borderRadius: 5 }}/>
                 </View>
                 <View>
                   <C42Text text={item.title} size={14} padding={{ bottom: 5 }} fontWeight="bold" theme={{ color: "black" }}></C42Text>

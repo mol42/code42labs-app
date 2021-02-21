@@ -53,11 +53,25 @@ function generateHtml(bodyContent: string | undefined) {
 }
 
 export default function SkillNewsDetailScreen(props: any): JSX.Element {
-  const dispatch = useDispatch();
-  const polyglot = I18nContext.polyglot;
+  //const dispatch = useDispatch();
+  // const polyglot = I18nContext.polyglot;
   const theme = ThemeContext.useTheme();
   const skillNewsState = useSelector((state: RootState) => state.skillNews);
   const safeAreaInsets = useSafeAreaInsets();
+  const selectedNewsId = props.route.params;
+  const selectedNews = skillNewsState.skillNews.find(item => item.id === selectedNewsId);
+
+  if (!selectedNews) {
+    return <></>;
+  }
+
+  let source;
+
+  if (selectedNews.content) {
+    source = { html: generateHtml(selectedNews.content) };
+  } else {
+    source = { uri: selectedNews.contentUrl };
+  }
 
   return (
     <SafeAreaView
@@ -69,7 +83,7 @@ export default function SkillNewsDetailScreen(props: any): JSX.Element {
     >
       <View style={styles.mainContainer}>
         <View style={{ flex: 1, paddingTop: safeAreaInsets.top }}>
-          <WebView style={{ flex: 1 }} source={{ html: generateHtml(skillNewsState.skillNews[0].content) }} />
+          <WebView style={{ flex: 1 }} source={source} />
         </View>
       </View>
       <View style={{ position: "absolute", width: "100%", paddingTop: safeAreaInsets.top, paddingLeft: 16 }}>

@@ -6,6 +6,7 @@ export type SkillNewsModel = {
     largeImage: string,
     summary: string,
     content: string,
+    contentUrl: string,
     languageId: number,
     publishDate: Date,
     createdAt: Date,

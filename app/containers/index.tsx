@@ -27,10 +27,12 @@ import SkillsScreen from "./skills/skills";
 import SettingsScreen from "./settings/settings";
 import SkillDetailScreen from "./skill-detail/skill-detail";
 import SkillStepDetailScreen from "./skill-step-detail/skill-step-deatail";
+import SkillNewsDetailScreen from "./skill-news-detail/skill-news-detail";
 
 enableScreens();
 
 const MainStack = createNativeStackNavigator();
+const DashboardStack = createNativeStackNavigator();
 const SkillsStack = createNativeStackNavigator();
 const MySkillsStack = createNativeStackNavigator();
 const TabbedStack = createBottomTabNavigator();
@@ -108,6 +110,14 @@ function MyTabBar({ state, descriptors, navigation }: { state: any, descriptors:
   );
 }
 
+function DashboardTab() {
+  return (
+    <DashboardStack.Navigator>
+      <DashboardStack.Screen name="DashboardScreen" component={DashboardScreen} options={{ headerShown: false }} />
+      <DashboardStack.Screen name="SkillNewsDetailScreen" component={SkillNewsDetailScreen} options={{ headerShown: false }} />
+    </DashboardStack.Navigator>
+  );
+}
 
 function SkillsTab() {
   return (
@@ -132,7 +142,7 @@ function MySkillsTab() {
 function TabScreen() {
   return (
     <TabbedStack.Navigator tabBar={props => <MyTabBar {...props} />} lazy={true}>
-      <TabbedStack.Screen name="DashboardScreen" component={DashboardScreen} />
+      <TabbedStack.Screen name="DashboardTab" component={DashboardTab} />
       <TabbedStack.Screen name="MySkillsTab" component={MySkillsTab} />
       <TabbedStack.Screen name="SkillsTab" component={SkillsTab} />
       <TabbedStack.Screen name="SettingsScreen" component={SettingsScreen} />

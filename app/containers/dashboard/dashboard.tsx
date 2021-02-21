@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, Image, StyleSheet, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemeContext } from "../../config/theming";
@@ -8,6 +8,8 @@ import C42Text from "../../components/text/text";
 import { fetchAllSkillNews } from "../../redux/modules/skill-news/skill-news-reducer";
 import { RootState } from "../../redux/root-reducer";
 import { SkillNewsModel } from "../../models/skill-news-model";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { navigate } from "../../navigation/navigation";
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -56,7 +58,7 @@ export default function DashboardScreen(): JSX.Element {
         <C42Text
           size={36}
           fontWeight={"bold"}
-          text={polyglot?.t("title_dashboard")}
+          text={polyglot?.t("title_dashboard_news")}
         ></C42Text>
       </View>
       <View style={styles.bottomContainer}>
@@ -65,9 +67,17 @@ export default function DashboardScreen(): JSX.Element {
             style={{ flex: 1 }}
             data={skillNewsState.skillNews}
             renderItem={({ item }: { item: SkillNewsModel }) => {
-              return (<View>
-                <C42Text text={item.title} size={14} theme={{ color: "black" }}></C42Text>
-              </View>
+              return (<TouchableOpacity onPress={() => {
+                navigate("SkillNewsDetailScreen", item.id);
+              }} style={{ flexDirection: "row", height: 80 }}>
+                <View style={{ justifyContent: "center", alignItems: "center", width: 120, height: 80 }}>
+                  <Image source={{ uri: item.smallImage }} style={{ width: 110, height: 80, borderRadius: 5 }}/>
+                </View>
+                <View>
+                  <C42Text text={item.title} size={14} padding={{ bottom: 5 }} fontWeight="bold" theme={{ color: "black" }}></C42Text>
+                  <C42Text text={item.summary} size={12} theme={{ color: "black" }}></C42Text>
+                </View>
+              </TouchableOpacity>
               );
             }}
           ></FlatList>

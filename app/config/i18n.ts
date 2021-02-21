@@ -19,7 +19,8 @@ const lang_en = {
   tab_all_skills: "Skills",
   tab_settings: "Settings",
   title_dashboard: "Dashboard",
-  title_settings_language: "Language"
+  title_settings_language: "Language",
+  title_dashboard_news: "News"
 };
 
 const lang_tr = {
@@ -41,7 +42,8 @@ const lang_tr = {
   tab_all_skills: "Skiller",
   tab_settings: "Ayarlar",
   title_dashboard: "Ana Sayfa",
-  title_settings_language: "Dil"
+  title_settings_language: "Dil",
+  title_dashboard_news: "Haberler"
 };
 
 type I18nContextType = {

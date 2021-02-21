@@ -1,8 +1,9 @@
 import "react-native-gesture-handler";
+import { enableScreens } from "react-native-screens";
 import * as React from "react";
 import { TouchableOpacity, View, Text } from "react-native";
 import { useSelector } from "react-redux";
-import { createStackNavigator } from "@react-navigation/stack";
+// import { createStackNavigator } from "@react-navigation/stack";
 // web modunda iken alttaki paket
 // Attempted import error: 'shouldUseActivityState' is not exported from 'react-native-screens'
 // hatasi veriyor dolayisi ile bu sorunu asabilmek icin
@@ -15,6 +16,7 @@ import { RootState } from "../redux/root-reducer";
 import { I18nContext } from "../config/i18n";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { createNativeStackNavigator } from "react-native-screens/native-stack";
 
 import LoginScreen from "./login/login";
 import WelcomeScreen from "./welcome/welcome";
@@ -26,9 +28,11 @@ import SettingsScreen from "./settings/settings";
 import SkillDetailScreen from "./skill-detail/skill-detail";
 import SkillStepDetailScreen from "./skill-step-detail/skill-step-deatail";
 
-const MainStack = createStackNavigator();
-const SkillsStack = createStackNavigator();
-const MySkillsStack = createStackNavigator();
+enableScreens();
+
+const MainStack = createNativeStackNavigator();
+const SkillsStack = createNativeStackNavigator();
+const MySkillsStack = createNativeStackNavigator();
 const TabbedStack = createBottomTabNavigator();
 
 const TAB_TITLE_KEYS = ["tab_dashboard", "tab_my_skills", "tab_all_skills", "tab_settings"];
@@ -84,6 +88,7 @@ function MyTabBar({ state, descriptors, navigation }: { state: any, descriptors:
 
         return (
           <TouchableOpacity
+            key={route.key}
             accessibilityRole="button"
             accessibilityState={isFocused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}

@@ -10,7 +10,7 @@ const C42Text = (props: any): JSX.Element => {
   return (
     <Text
       style={{
-        color: theme.text.colors.primary,
+        color: props.color || theme.text.colors.primary,
         fontWeight,
         fontSize: size,
         paddingBottom: padding.bottom
@@ -26,6 +26,7 @@ C42Text.defaultProps = {
   text: "",
   fontWeight: "normal",
   padding: {},
+  color: "black",
   theme: null
 };
 
@@ -34,6 +35,7 @@ C42Text.propTypes = {
   text: PropTypes.string,
   fontWeight: PropTypes.string,
   padding: PropTypes.object,
+  color: PropTypes.string,
   theme: PropTypes.object
 };
 

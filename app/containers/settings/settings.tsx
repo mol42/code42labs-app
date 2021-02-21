@@ -85,9 +85,7 @@ export default function SkillsScreen(): JSX.Element {
                     marginVertical: 0,
                   }}
                   width={200}
-                  onChange={index => {
-                    updateLanguage(index);
-                  }}
+                  onChange={updateLanguage}
                 />
               </View>
             </View>

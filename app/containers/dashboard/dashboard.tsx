@@ -1,10 +1,13 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Switch } from "react-native";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { View, StyleSheet, FlatList } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemeContext } from "../../config/theming";
 import { I18nContext } from "../../config/i18n";
 import C42Text from "../../components/text/text";
+import { fetchAllSkillNews } from "../../redux/modules/skill-news/skill-news-reducer";
+import { RootState } from "../../redux/root-reducer";
+import { SkillNewsModel } from "../../models/skill-news-model";
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -34,6 +37,12 @@ export default function DashboardScreen(): JSX.Element {
   const dispatch = useDispatch();
   const theme = ThemeContext.useTheme();
   const polyglot = I18nContext.polyglot;
+  const skillNewsState = useSelector((state: RootState) => state.skillNews);
+
+
+  useEffect(function() {
+    dispatch(fetchAllSkillNews(null));
+  }, []);
 
   return (<SafeAreaView
     style={[
@@ -52,7 +61,16 @@ export default function DashboardScreen(): JSX.Element {
       </View>
       <View style={styles.bottomContainer}>
         <View style={{ flex: 1 }}>
-
+          <FlatList
+            style={{ flex: 1 }}
+            data={skillNewsState.skillNews}
+            renderItem={({ item }: { item: SkillNewsModel }) => {
+              return (<View>
+                <C42Text text={item.title} size={14} theme={{ color: "black" }}></C42Text>
+              </View>
+              );
+            }}
+          ></FlatList>
         </View>
       </View>
     </View>

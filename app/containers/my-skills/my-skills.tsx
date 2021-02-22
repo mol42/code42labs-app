@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import C42Text from "../../components/text/text";
 import { I18nContext } from "../../config/i18n";
 import { ThemeContext } from "../../config/theming";
+import { GlobalConstants } from "../../config/global-constants";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import {
   fetchAllFavoriteSkills,
@@ -13,6 +14,7 @@ import {
 import { RootState } from "../../redux/root-reducer";
 import { SkillModel } from "../../models/skills-model";
 import { navigate } from "../../navigation/navigation";
+import { Ionicons } from "@expo/vector-icons";
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -69,6 +71,14 @@ export default function MySkillsScreen() {
         <View style={styles.bottomContainer}>
           <FlatList
             data={skillsState.favoriteSkills}
+            ListEmptyComponent={() => <View style={{ height: GlobalConstants.dimensions.height / 2, justifyContent: "center", alignItems: "center" }}><View style={{ borderWidth: 0.5, borderColor: "#DDD", borderRadius: 5, padding: 8, justifyContent: "center", alignItems: "center" }}>
+              <Ionicons name="ios-information-circle-sharp" size={52} color={theme.buttons.primary.color} />
+              <C42Text
+                size={14}
+                fontWeight={"normal"}
+                text={polyglot?.t("title_my_skills_info_label")}
+              ></C42Text>
+            </View></View>}
             renderItem={({ item }: { item: SkillModel }) => {
               return (
                 <TouchableOpacity

@@ -3,6 +3,7 @@ import { View, Image, StyleSheet, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemeContext } from "../../config/theming";
+import { GlobalConstants } from "../../config/global-constants";
 import { I18nContext } from "../../config/i18n";
 import C42Text from "../../components/text/text";
 import { fetchAllSkillNews } from "../../redux/modules/skill-news/skill-news-reducer";
@@ -10,6 +11,7 @@ import { RootState } from "../../redux/root-reducer";
 import { SkillNewsModel } from "../../models/skill-news-model";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { navigate } from "../../navigation/navigation";
+import { Ionicons } from "@expo/vector-icons";
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -41,7 +43,6 @@ export default function DashboardScreen(): JSX.Element {
   const polyglot = I18nContext.polyglot;
   const skillNewsState = useSelector((state: RootState) => state.skillNews);
 
-
   useEffect(function() {
     dispatch(fetchAllSkillNews(null));
   }, []);
@@ -66,6 +67,14 @@ export default function DashboardScreen(): JSX.Element {
           <FlatList
             style={{ flex: 1 }}
             data={skillNewsState.skillNews}
+            ListEmptyComponent={() => <View style={{ height: GlobalConstants.dimensions.height / 2, justifyContent: "center", alignItems: "center" }}><View style={{ borderWidth: 0.5, borderColor: "#DDD", borderRadius: 5, padding: 8, justifyContent: "center", alignItems: "center" }}>
+              <Ionicons name="ios-information-circle-sharp" size={52} color={theme.buttons.primary.color} />
+              <C42Text
+                size={14}
+                fontWeight={"normal"}
+                text={polyglot?.t("title_dashboard_info_label")}
+              ></C42Text>
+            </View></View>}
             renderItem={({ item }: { item: SkillNewsModel }) => {
               return (<TouchableOpacity onPress={() => {
                 navigate("SkillNewsDetailScreen", item.id);

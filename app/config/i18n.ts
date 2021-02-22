@@ -20,7 +20,9 @@ const lang_en = {
   tab_settings: "Settings",
   title_dashboard: "Dashboard",
   title_settings_language: "Language",
-  title_dashboard_news: "News"
+  title_dashboard_news: "News",
+  title_dashboard_info_label: "Oh you have not select any skill yet ? You will be able to get the latest news from your selected skills, add a skill and stay up-to-date !",
+  title_my_skills_info_label: "Oh you have not select any skill yet ? Add some skills to start learning new skills everyday !"
 };
 
 const lang_tr = {
@@ -43,7 +45,9 @@ const lang_tr = {
   tab_settings: "Ayarlar",
   title_dashboard: "Ana Sayfa",
   title_settings_language: "Dil",
-  title_dashboard_news: "Haberler"
+  title_dashboard_news: "Haberler",
+  title_dashboard_info_label: "Skill seçmemişsiniz ? seçtiğiniz skillerin son gelişmelerini buradan takip edebileceksiniz, hemen skill ekleyin ve güncel kalın !",
+  title_my_skills_info_label: "Skill seçmemişsiniz, skill listesinden skill seçerek her gün yeni yetenekler öğrenin !"
 };
 
 type I18nContextType = {

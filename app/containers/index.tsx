@@ -26,7 +26,7 @@ import MySkillsScreen from "./my-skills/my-skills";
 import SkillsScreen from "./skills/skills";
 import SettingsScreen from "./settings/settings";
 import SkillDetailScreen from "./skill-detail/skill-detail";
-import SkillStepDetailScreen from "./skill-step-detail/skill-step-deatail";
+import SkillStepDetailScreen from "./skill-step-detail/skill-step-detail";
 import SkillNewsDetailScreen from "./skill-news-detail/skill-news-detail";
 
 enableScreens();

@@ -5,7 +5,7 @@ import C42Text from "../../components/text/text";
 import { I18nContext } from "../../config/i18n";
 import { ThemeContext } from "../../config/theming";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import { fetchSkillSteps, setSelectedSkillStep, updateSkillFavorites, fetchAllFavoriteSkills } from "../../redux/modules/skills/skills-reducer";
+import { fetchSkillSteps, setSelectedSkillStep, updateSkillFavorites, fetchAllFavoriteSkills, fetchSkillStepProgress } from "../../redux/modules/skills/skills-reducer";
 import { RootState } from "../../redux/root-reducer";
 import { SkillStepModel } from "../../models/skill-step-model";
 import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
@@ -44,7 +44,7 @@ export default function SkillDetailScreen(): JSX.Element {
   const skillsState = useSelector((state: RootState) => state.skills);
   const safeAreaInsets = useSafeAreaInsets();
 
-  const { selectedSkill, favoriteSkills } = skillsState;
+  const { selectedSkill, favoriteSkills, skillStepProgress } = skillsState;
   const skillImage = selectedSkill ? selectedSkill.image : "";
   const skillId = selectedSkill ? selectedSkill.id : 0;
   const isFavorite = favoriteSkills.findIndex(item => item.id === skillId) > -1;
@@ -52,6 +52,7 @@ export default function SkillDetailScreen(): JSX.Element {
   useEffect(() => {
     dispatch(fetchSkillSteps(skillId));
     dispatch(fetchAllFavoriteSkills(skillId));
+    dispatch(fetchSkillStepProgress(skillId));
   }, []);
 
   return (
@@ -115,6 +116,8 @@ export default function SkillDetailScreen(): JSX.Element {
             ></C42Text>
             <View style={{ height: 10 }}></View>
             {skillsState.selectedSkillSteps.map((item: SkillStepModel) => {
+              const isCompleted = skillStepProgress ? skillStepProgress.progress[`skill_${skillId}`][item.id] : false;
+
               return (
                 <TouchableOpacity onPress={() => {
                   dispatch(setSelectedSkillStep(item));
@@ -137,11 +140,16 @@ export default function SkillDetailScreen(): JSX.Element {
                       fontWeight={"normal"}
                       text={item.name}
                     ></C42Text>
-                    <Entypo
-                      name="chevron-with-circle-right"
-                      size={24}
-                      color={theme.buttons.primary.color}
-                    />
+                    <View style={{ flexDirection: "row" }}>
+                      {
+                        isCompleted && <Ionicons name={"checkmark-circle"} size={24} color="green" />
+                      }
+                      <Entypo
+                        name="chevron-with-circle-right"
+                        size={28}
+                        color={theme.buttons.primary.color}
+                      />
+                    </View>
                   </View>
                 </TouchableOpacity>
               );
@@ -149,7 +157,7 @@ export default function SkillDetailScreen(): JSX.Element {
           </View>
         </View>
       </ScrollView>
-      <View style={{ flexDirection: "row", justifyContent: "space-between", position: "absolute", width: "100%", paddingTop: safeAreaInsets.top, paddingHorizontal: 16 }}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", position: "absolute", width: "100%", paddingTop: safeAreaInsets.top, height: 40 + safeAreaInsets.top, paddingHorizontal: 16 }}>
         <TouchableOpacity onPress={() => {
           goBack();
         }}>

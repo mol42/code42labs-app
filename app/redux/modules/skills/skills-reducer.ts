@@ -4,14 +4,15 @@ import {
   skillsApi_fetchSkillSteps,
   skillsApi_fetchAllSkillStepResources,
   skillsApi_updateSkillFavorites,
-  skillsApi_fetchAllFavoriteSkills
+  skillsApi_fetchAllFavoriteSkills,
+  skillsApi_fetchSkillStepProgress,
+  skillsApi_updateSkillStepProgress
 } from "./skills-api";
 import { SkillsState } from "./skills-types";
-// import { showMessage } from "react-native-flash-message";
-// import { ErrorCodesMap } from "../../../config/error-constants";
 import { SkillModel } from "../../../models/skills-model";
 import { SkillStepModel } from "../../../models/skill-step-model";
 import { SkillStepResourceModel } from "../../../models/skill-step-resource-model";
+import { SkillStepProgressModel } from "../../../models/skill-step-progress-model";
 
 export const fetchAllSkills = createAsyncThunk(
   "skills/fetchAllSkills",
@@ -74,13 +75,42 @@ export const fetchAllFavoriteSkills = createAsyncThunk(
   }
 );
 
+export const fetchSkillStepProgress = createAsyncThunk(
+  "skills/fetchSkillProgress",
+  async (skillId :number, thunkAPI: any) => {
+    try {
+      const apiResult = await skillsApi_fetchSkillStepProgress(skillId);
+      if (apiResult.status === "ok") {
+        thunkAPI.dispatch(setSkillStepProgress(apiResult.data));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
+export const updateSkillStepProgress = createAsyncThunk(
+  "skills/fetchSkillProgress",
+  async ({ skillId, skillStepId, isCompleted } : {skillId : number, skillStepId : number, isCompleted : boolean}, thunkAPI: any) => {
+    try {
+      const apiResult = await skillsApi_updateSkillStepProgress(skillId, skillStepId, isCompleted);
+      if (apiResult.status === "ok") {
+        thunkAPI.dispatch(setSkillStepProgress(apiResult.data));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 const initialState: SkillsState = {
   allSkills: [],
   selectedSkill: null,
   selectedSkillSteps: [],
   selectedSkillStep: null,
   selectedSkillStepResources: [],
-  favoriteSkills: []
+  favoriteSkills: [],
+  skillStepProgress: null
 };
 
 export const skillsSlice = createSlice({
@@ -117,6 +147,12 @@ export const skillsSlice = createSlice({
     ): void {
       state.favoriteSkills = payload;
     },
+    setSkillStepProgress(
+      state,
+      { payload }: PayloadAction<SkillStepProgressModel>
+    ): void {
+      state.skillStepProgress = payload;
+    },
   },
   extraReducers: (builder: any) => {
     console.log("");
@@ -129,7 +165,8 @@ export const {
   setSelectedSkillSteps,
   setSelectedSkillStep,
   setSelectedSkillStepResources,
-  setSkillFavorites
+  setSkillFavorites,
+  setSkillStepProgress
 } = skillsSlice.actions;
 
 export default skillsSlice.reducer;

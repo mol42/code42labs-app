@@ -5,12 +5,12 @@ import C42Text from "../../components/text/text";
 import { I18nContext } from "../../config/i18n";
 import { ThemeContext } from "../../config/theming";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { fetchSkillStepResources } from "../../redux/modules/skills/skills-reducer";
+import { fetchSkillStepResources, updateSkillStepProgress } from "../../redux/modules/skills/skills-reducer";
 import { RootState } from "../../redux/root-reducer";
-import { Entypo, AntDesign } from "@expo/vector-icons";
+import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
 import { SkillStepResourceModel } from "../../models/skill-step-resource-model";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
+import { TabView, SceneMap } from "react-native-tab-view";
 import { WebView } from "react-native-webview";
 import { goBack } from "../../navigation/navigation";
 
@@ -76,10 +76,11 @@ export default function SkillStepDetailScreen(): JSX.Element {
     { key: "second", title: polyglot?.t("title_additional_resources") },
   ]);
 
-  const { selectedSkill, selectedSkillStep, selectedSkillStepResources } = skillsState;
+  const { selectedSkill, selectedSkillStep, selectedSkillStepResources, skillStepProgress } = skillsState;
   const skillImage = selectedSkill ? selectedSkill.image : "";
   const skillId = selectedSkill ? selectedSkill.id : 0;
   const skillStepId = selectedSkillStep ? selectedSkillStep.id : 0;
+  const isCompleted = skillStepProgress ? skillStepProgress.progress[`skill_${skillId}`][skillStepId] : false;
 
   useEffect(() => {
     dispatch(fetchSkillStepResources({ skillId, skillStepId }));
@@ -224,11 +225,16 @@ export default function SkillStepDetailScreen(): JSX.Element {
           />
         </View>
       </View>
-      <View style={{ position: "absolute", width: "100%", paddingTop: safeAreaInsets.top, paddingLeft: 16 }}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", position: "absolute", width: "100%", paddingTop: safeAreaInsets.top, height: 40 + safeAreaInsets.top, paddingHorizontal: 16 }}>
         <TouchableOpacity onPress={() => {
           goBack();
         }}>
           <AntDesign name="leftcircle" size={24} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          dispatch(updateSkillStepProgress({ skillId, skillStepId, isCompleted: !isCompleted }));
+        }}>
+          <Ionicons name={isCompleted ? "checkmark-circle" : "checkmark-circle-outline"} size={24} color="black" />
         </TouchableOpacity>
       </View>
     </View>

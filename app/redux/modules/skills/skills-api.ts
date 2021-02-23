@@ -58,3 +58,30 @@ export async function skillsApi_fetchAllFavoriteSkills(
   );
   return skillStepfavoritingResponse;
 }
+
+export async function skillsApi_fetchSkillStepProgress(
+  skillId: number
+): Promise<ApiResponse<any>> {
+  const skillStepfavoritingResponse: ApiResponse<any> = await doGet(
+    `http://localhost:3000/skills/${skillId}/progress/all`,
+    null
+  );
+  return skillStepfavoritingResponse;
+}
+
+export async function skillsApi_updateSkillStepProgress(
+  skillId: number,
+  skillStepId: number,
+  isCompleted: boolean
+): Promise<ApiResponse<any>> {
+  const skillStepfavoritingResponse: ApiResponse<any> = await doPost(
+    `http://localhost:3000/skills/${skillId}/progress/update`,
+    null,
+    {
+      skillId,
+      skillStepId,
+      isCompleted
+    }
+  );
+  return skillStepfavoritingResponse;
+}

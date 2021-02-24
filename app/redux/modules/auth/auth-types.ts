@@ -1,4 +1,4 @@
-import { UserModel } from "../../../models/auth-response";
+import { UserModel } from "../../../models/auth-model";
 
 export type UserCredentials = {
   email: string

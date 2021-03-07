@@ -25,6 +25,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "~0.63.4",
+    "react-native-dotenv": "^2.5.3",
     "react-native-flash-message": "^0.1.21",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-hide-show-password-input": "^1.2.0",

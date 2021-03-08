@@ -68,6 +68,7 @@ export const doLogin = createAsyncThunk<
       thunkAPI.dispatch(setAuthToken(loginResult.data.xAuthToken));
       //
       thunkAPI.dispatch(ReduxActions.global.initGlobalTheme(loginResult.data.user.theme));
+      thunkAPI.dispatch(ReduxActions.global.initGlobalLanguage(loginResult.data.user.language));
     } else {
       // typescipt bir constnt icindeki keyleri kontrol ettigi icin ve
       // dinamik olarak bir keyi kabul etmedigi icin varsayilan olarak

@@ -21,6 +21,9 @@ export default function AppBody(props: any): JSX.Element {
   const globalState = useSelector((state: RootState) => state.global);
   const selectedTheme = globalState.theme === 0 ? whiteTheme : darkTheme;
 
+  // Bu effect ile auto login kontrolu yapiyoruz
+  // eger localStorage icinde token varsa auto login
+  // yapiyoruz.
   useEffect(function() {
     dispatch(initAuth(null));
   }, []);

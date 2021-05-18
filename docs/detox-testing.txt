@@ -1,0 +1,7 @@
+- npm install --save-dev detox
+- detox init
+- configure settings file
+- detox build --configuration ios
+- npm install --save-dev jest 
+- npm install --save-dev jest-circus
+- detox test --configuration ios

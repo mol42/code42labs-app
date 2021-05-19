@@ -1,7 +1,18 @@
+- npm install -g detox-cli
+    -> detox cli'yi global npm ortamina kuruyoruz
 - npm install --save-dev detox
+    -> detox kutuphanesini projeye dev dependency olarak ekliyoruz
 - detox init
+    -> detox kutuphanesi icin gerekli ayar dosyalarini olusturmak amaci ile init ediyoruz 
 - configure settings file
-- detox build --configuration ios
+    -> bu adimda dosyalarda uygun ayarlamalari yapiyoruz
 - npm install --save-dev jest 
+    -> testleri kosacak jest kutuphanesini kuruyoruz
 - npm install --save-dev jest-circus
+    -> testleri kosmaya yardimci jest-circus kutuphanesini kuruyoruz
+
+** Asil test adimlari
+- detox build --configuration ios
+    -> bu noktada testID'leri iceren app build edilir
 - detox test --configuration ios
+    -> Detox e2e icinde belirtilen testleri kosar ve simulator uzerinde appimizi test eder.

@@ -37,10 +37,10 @@ export default function WelcomeScreen() {
       </View>
       <View style={styles.bottomContainer}>
         <View style={{ flex: 1 }}>
-          <C42PrimaryButton text={"Sign Up"} onPress={() => navigate("SignupScreen", null)}></C42PrimaryButton>
+          <C42PrimaryButton text={"Sign Up"} onPress={() => navigate("SignupScreen", null)} testID={"welcome_signup_button"}></C42PrimaryButton>
         </View>
         <View style={{ flex: 1 }}>
-          <C42CommonButton text={"Sign In"} onPress={() => navigate("LoginScreen", null)}></C42CommonButton>
+          <C42CommonButton text={"Sign In"} onPress={() => navigate("LoginScreen", null)} testID={"welcome_signin_button"}></C42CommonButton>
         </View>
       </View>
     </View>

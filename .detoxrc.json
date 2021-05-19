@@ -1,0 +1,39 @@
+{
+  "testRunner": "jest",
+  "runnerConfig": "e2e/config.json",
+  "apps": {
+    "ios": {
+      "type": "ios.app",
+      "binaryPath": "/Users/typhoony/Library/Developer/Xcode/DerivedData/code42labsapp-dzzugiluusjhaehgmdhbbsmxudxc/Build/Products/Debug-iphonesimulator/code42labsapp.app",
+      "build" : "xcodebuild -workspace ios/code42labsapp.xcworkspace -UseNewBuildSystem=YES -scheme code42labsapp -configuration Debug -sdk iphonesimulator -derivedDataPath build"
+    },
+    "android": {
+      "type": "android.apk",
+      "binaryPath": "SPECIFY_PATH_TO_YOUR_APP_BINARY"
+    }
+  },
+  "devices": {
+    "simulator": {
+      "type": "ios.simulator",
+      "device": {
+        "type": "iPhone 11"
+      }
+    },
+    "emulator": {
+      "type": "android.emulator",
+      "device": {
+        "avdName": "Pixel_3a_API_30_x86"
+      }
+    }
+  },
+  "configurations": {
+    "ios": {
+      "device": "simulator",
+      "app": "ios"
+    },
+    "android": {
+      "device": "emulator",
+      "app": "android"
+    }
+  }
+}

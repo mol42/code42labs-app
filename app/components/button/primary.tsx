@@ -22,6 +22,7 @@ export default function Component(props: any): JSX.Element {
     <Pressable
       style={[styles.primary, { backgroundColor: theme.buttons.primary.color }]}
       onPress={props.onPress}
+      testID={props.testID}
     >
       <Text style={{ color: theme.buttons.primary.textColor }}>
         {props.text}
